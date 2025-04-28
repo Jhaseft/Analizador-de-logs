@@ -1,0 +1,64 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.File;
+/**
+ * Write a description of class modelo here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class modelo
+{
+    public static void main(String args[]){
+        List<Parametrosapache>lista=new ArrayList<>() ;
+        String ruta;
+        //poner ruta del archivo
+        ruta="C:\\Users\\ASUS\\Desktop\\hola.txt";
+          // Verificar si el archivo existe
+        File archivo = new File(ruta);
+        if (archivo.exists()) {
+            System.out.println("La ruta ha sido recibida correctamente: " + ruta);
+        } else {
+            System.out.println("El archivo no existe en la ruta proporcionada.");
+        }
+        leerlog(lista,ruta);
+        
+        for(Parametrosapache pa:lista){
+            pa.mostrardatos();
+            System.out.println();
+        }
+         
+    }
+    
+    private static void leerlog(List<Parametrosapache>lista,String ruta){
+        try{
+            BufferedReader lector=new BufferedReader(new FileReader(ruta));
+            String linea="";
+            while((linea=lector.readLine())!=null){
+                String[]bloques=linea.split(" ");
+                if(bloques.length==18){
+                    String IP = bloques[0];
+                    String cuenta = bloques[2];
+                    String fechaHora =bloques[3];  // Convertimos la fecha al tipo LocalDateTime
+                    String metodo = bloques[5];
+                    String Ruta = bloques[6];
+                    String protocolo = bloques[7];
+                    String estado =bloques[8];  // Convertimos el estado a un int
+                    String respuesta = bloques[9]; // Convertimos la respuesta a un int
+                    String referer = bloques[10];
+                    String SO = bloques[13];
+                    String navegador = bloques[17];
+                    lista.add(new Parametrosapache(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
+                }
+            }
+            lector.close();
+        }catch(IOException e){
+            System.out.println("Error al leer el archivo"+e.getMessage());
+        
+        }
+    
+    }
+}
