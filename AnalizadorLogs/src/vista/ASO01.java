@@ -175,6 +175,8 @@ public class ASO01 extends javax.swing.JFrame {
             }
         });
     }
+    
+    // Hola soy Joseph xd
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_analizarLogs;
