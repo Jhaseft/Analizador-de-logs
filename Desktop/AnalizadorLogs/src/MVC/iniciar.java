@@ -25,7 +25,7 @@ public class iniciar {
     
       
         controlador ctrl=new controlador(view1,view2,view3,mod);
-        
+        ctrl.iniciar();
          view1.setVisible(true);
     }
 }
