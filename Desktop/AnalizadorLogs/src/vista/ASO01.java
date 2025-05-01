@@ -87,9 +87,10 @@ public class ASO01 extends javax.swing.JFrame {
         });
         getContentPane().add(jbox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 100, -1));
 
-        btnsalir.setBackground(new java.awt.Color(51, 51, 51));
+        btnsalir.setBackground(new java.awt.Color(51, 109, 221));
         btnsalir.setForeground(new java.awt.Color(255, 255, 255));
         btnsalir.setText("SALIR");
+        btnsalir.setBorderPainted(false);
         btnsalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnsalirActionPerformed(evt);
