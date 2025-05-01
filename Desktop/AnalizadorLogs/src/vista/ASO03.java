@@ -57,7 +57,7 @@ public class ASO03 extends javax.swing.JFrame {
         jCheckBox_errores = new javax.swing.JCheckBox();
         jCheckBox_accesosNoAutorizados = new javax.swing.JCheckBox();
         jScrollPane_registro = new javax.swing.JScrollPane();
-        jButton_volver = new javax.swing.JButton();
+        btnvolver3 = new javax.swing.JButton();
         jLabel_fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,10 +92,10 @@ public class ASO03 extends javax.swing.JFrame {
         getContentPane().add(jCheckBox_accesosNoAutorizados, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
         getContentPane().add(jScrollPane_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 400, 140));
 
-        jButton_volver.setBackground(new java.awt.Color(51, 51, 51));
-        jButton_volver.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_volver.setText("VOLVER");
-        getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
+        btnvolver3.setBackground(new java.awt.Color(51, 51, 51));
+        btnvolver3.setForeground(new java.awt.Color(255, 255, 255));
+        btnvolver3.setText("VOLVER");
+        getContentPane().add(btnvolver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
         getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 370));
 
         pack();
@@ -137,7 +137,7 @@ public class ASO03 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_volver;
+    public javax.swing.JButton btnvolver3;
     private javax.swing.JCheckBox jCheckBox_accesosNoAutorizados;
     private javax.swing.JCheckBox jCheckBox_errores;
     private javax.swing.JCheckBox jCheckBox_fallas;

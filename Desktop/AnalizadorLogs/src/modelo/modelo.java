@@ -15,6 +15,7 @@ import java.io.File;
  */
 public class modelo {
     private String ruta="";
+    //usado solo para devolver ruta automatica
     private String respruta;
     private List<Parametrosapache>lista=new ArrayList<>() ;
     
@@ -46,12 +47,12 @@ public class modelo {
                 if(bloques.length==18){
                     String IP = bloques[0];
                     String cuenta = bloques[2];
-                    String fechaHora =bloques[3];  // Convertimos la fecha al tipo LocalDateTime
+                    String fechaHora =bloques[3]; 
                     String metodo = bloques[5];
                     String Ruta = bloques[6];
                     String protocolo = bloques[7];
-                    String estado =bloques[8];  // Convertimos el estado a un int
-                    String respuesta = bloques[9]; // Convertimos la respuesta a un int
+                    String estado =bloques[8];  
+                    String respuesta = bloques[9]; 
                     String referer = bloques[10];
                     String SO = bloques[13];
                     String navegador = bloques[17];

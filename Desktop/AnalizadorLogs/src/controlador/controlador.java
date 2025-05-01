@@ -33,6 +33,8 @@ public class controlador implements ActionListener {
         this.view1.btningresardatos.addActionListener(this);
         this.view1.btnsalir.addActionListener(this);
         this.view2.jButton_volver.addActionListener(this);
+        this.view3.btnvolver3.addActionListener(this);
+        this.view2.btnfiltrar.addActionListener(this);
     }
    public void iniciar(){
        view1.setLocationRelativeTo(null);
@@ -42,6 +44,7 @@ public class controlador implements ActionListener {
       if(e.getSource()==view1.btningresardatos){    
          view1.txtruta.setEnabled(true);
          view1.jbox1.setSelectedIndex(0);
+         view1.txtmens.setText("");
     }
       //acciones para el boton de salir
      if(e.getSource()==view1.btnsalir){    
@@ -52,6 +55,16 @@ public class controlador implements ActionListener {
          view1.setVisible(true);
          view2.setVisible(false);
     }
+     //boton para ir a la trecera ventana
+     if(e.getSource()==view2.btnfiltrar){    
+         view3.setVisible(true);
+         view2.setVisible(false);
+         }
+     //boton para volver de la tercera ventrana a la segunda
+        if(e.getSource()==view3.btnvolver3){    
+         view3.setVisible(false);
+         view2.setVisible(true);
+         }
      //acciones para el combobox
        if(e.getSource()==view1.jbox1){    
          model.setRuta(view1.jbox1.getSelectedItem().toString());
@@ -60,12 +73,11 @@ public class controlador implements ActionListener {
          
     }
        //acciones para el boton de analizar datos
-    if(e.getSource()==view1.btnanalizar){
-        model.setRuta(view1.txtruta.getText());
-         if(!model.getRuta().isEmpty()){
-                
+    if(e.getSource()==view1.btnanalizar){   
+         
+                    model.setRuta(view1.txtruta.getText());
                     view1.setVisible(false);
-                    view2.lblruta.setText(model.getRespruta());
+                    view2.lblruta.setText(model.getRuta());
                     view2.setVisible(true);
                     //codigo para meter datos a tabla
                     List<Parametrosapache>lista=model.leerlog();
@@ -89,9 +101,9 @@ public class controlador implements ActionListener {
                         }
                     }
                 
-         }else {
-            view1.txtmens.setText("Ruta no valida");
-         }    
+        
+         
+       
     }
    
     

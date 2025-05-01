@@ -55,10 +55,10 @@ public class ASO02 extends javax.swing.JFrame {
 
         jLabel_servicio = new javax.swing.JLabel();
         jButton_volver = new javax.swing.JButton();
-        jButton_incidencias = new javax.swing.JButton();
-        jButton_guardarBD = new javax.swing.JButton();
+        btnincidencias = new javax.swing.JButton();
+        btnbasededatos = new javax.swing.JButton();
         lblruta = new javax.swing.JLabel();
-        jButton_ir = new javax.swing.JButton();
+        btnfiltrar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla1 = new javax.swing.JTable();
         jLabel_fondo = new javax.swing.JLabel();
@@ -82,24 +82,29 @@ public class ASO02 extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, -1, -1));
 
-        jButton_incidencias.setBackground(new java.awt.Color(51, 51, 51));
-        jButton_incidencias.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_incidencias.setText("INCIDENCIAS");
-        getContentPane().add(jButton_incidencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
+        btnincidencias.setBackground(new java.awt.Color(51, 51, 51));
+        btnincidencias.setForeground(new java.awt.Color(255, 255, 255));
+        btnincidencias.setText("INCIDENCIAS");
+        btnincidencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnincidenciasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnincidencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
 
-        jButton_guardarBD.setBackground(new java.awt.Color(51, 51, 51));
-        jButton_guardarBD.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_guardarBD.setText("GUARDAR BD");
-        getContentPane().add(jButton_guardarBD, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 310, -1, -1));
+        btnbasededatos.setBackground(new java.awt.Color(51, 51, 51));
+        btnbasededatos.setForeground(new java.awt.Color(255, 255, 255));
+        btnbasededatos.setText("GUARDAR BD");
+        getContentPane().add(btnbasededatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 310, -1, -1));
 
         lblruta.setBackground(new java.awt.Color(255, 255, 255));
         lblruta.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(lblruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 250, 20));
 
-        jButton_ir.setBackground(new java.awt.Color(51, 51, 51));
-        jButton_ir.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_ir.setText("VER/DIRIGIRSE");
-        getContentPane().add(jButton_ir, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, -1, -1));
+        btnfiltrar.setBackground(new java.awt.Color(51, 51, 51));
+        btnfiltrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnfiltrar.setText("VER/DIRIGIRSE");
+        getContentPane().add(btnfiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, -1, -1));
 
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,6 +136,10 @@ public class ASO02 extends javax.swing.JFrame {
     private void jButton_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_volverActionPerformed
    
     }//GEN-LAST:event_jButton_volverActionPerformed
+
+    private void btnincidenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnincidenciasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnincidenciasActionPerformed
      
     /**
      * @param args the command line arguments
@@ -169,9 +178,9 @@ public class ASO02 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTable Tabla1;
-    public javax.swing.JButton jButton_guardarBD;
-    public javax.swing.JButton jButton_incidencias;
-    public javax.swing.JButton jButton_ir;
+    public javax.swing.JButton btnbasededatos;
+    public javax.swing.JButton btnfiltrar;
+    public javax.swing.JButton btnincidencias;
     public javax.swing.JButton jButton_volver;
     public javax.swing.JLabel jLabel_fondo;
     private javax.swing.JLabel jLabel_servicio;
