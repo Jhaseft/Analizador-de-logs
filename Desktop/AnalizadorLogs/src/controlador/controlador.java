@@ -80,10 +80,10 @@ public class controlador implements ActionListener {
                     view2.lblruta.setText(model.getRuta());
                     view2.setVisible(true);
                     //codigo para meter datos a tabla
-                    List<Parametrosapache>lista=model.leerlog();
+                    List<Parametrosapache_acceslog>lista=model.leerlog();
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
-                    for(Parametrosapache p:lista){
+                    for(Parametrosapache_acceslog p:lista){
                         modelo.addRow(new Object[]{
                             p.getIP(),
                             p.getCuenta(),

@@ -8,7 +8,7 @@ package modelo;
  *
  * @author saat
  */
-public class Parametrosapache {
+public class Parametrosapache_acceslog {
     private String IP; 
     private String cuenta;
     private String fechaHora;
@@ -21,7 +21,7 @@ public class Parametrosapache {
     private String SO;
     private String navegador;
 
-    public Parametrosapache(String IP, String cuenta, String fechaHora, String metodo, String Ruta, String protocolo, String estado, String respuesta, String referer, String SO, String navegador) {
+    public Parametrosapache_acceslog(String IP, String cuenta, String fechaHora, String metodo, String Ruta, String protocolo, String estado, String respuesta, String referer, String SO, String navegador) {
         this.IP = IP;
         this.cuenta = cuenta;
         this.fechaHora = fechaHora;

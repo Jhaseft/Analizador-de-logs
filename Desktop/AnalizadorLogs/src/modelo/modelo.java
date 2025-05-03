@@ -17,7 +17,8 @@ public class modelo {
     private String ruta="";
     //usado solo para devolver ruta automatica
     private String respruta;
-    private List<Parametrosapache>lista=new ArrayList<>() ;
+    private List<Parametrosapache_acceslog>lista=new ArrayList<>();
+    
     
     
     public String getRespruta() {
@@ -38,10 +39,11 @@ public class modelo {
     }
     
     //codigo para parametrizar logs
-    public  List<Parametrosapache> leerlog(){
+    public  List<Parametrosapache_acceslog> leerlog(){
         try{
             BufferedReader lector=new BufferedReader(new FileReader(ruta));
             String linea="";
+            
             while((linea=lector.readLine())!=null){
                 String[]bloques=linea.split(" ");
                 if(bloques.length==18){
@@ -56,7 +58,7 @@ public class modelo {
                     String referer = bloques[10];
                     String SO = bloques[13];
                     String navegador = bloques[17];
-                    lista.add(new Parametrosapache(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
+                    lista.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
                 }
             }
             lector.close();
@@ -81,5 +83,9 @@ public class modelo {
        return this.respruta;
     
     }
+    //
+    
+    //un codigo que analize la ruta si es apacheacceslog o error log o FTP
+    
    
 }
