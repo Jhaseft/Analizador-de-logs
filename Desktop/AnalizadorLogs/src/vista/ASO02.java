@@ -111,17 +111,9 @@ public class ASO02 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "IP", "Cuenta", "Fecha y hora", "Metodo", "Ruta", "Protocolo", "Estado", "Respuesta", "Referer", "Sistema Operativo", "Navegador"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, true, true, true, false, true
-            };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
             }
-        });
+        ));
         jScrollPane1.setViewportView(Tabla1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, 170));

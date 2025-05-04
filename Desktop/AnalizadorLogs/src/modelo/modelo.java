@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
+import javax.swing.JOptionPane;
 /**
  *
  * @author saat
@@ -17,7 +18,18 @@ public class modelo {
     private String ruta="";
     //usado solo para devolver ruta automatica
     private String respruta;
-    private List<Parametrosapache_acceslog>lista=new ArrayList<>();
+    private List<Parametrosapache_acceslog>lista1=new ArrayList<>();
+    private List<Parametrosapache_acceslog>lista2=new ArrayList<>();
+    private List<Parametrosapache_acceslog>lista3=new ArrayList<>();
+    private String tipo;
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
     
     
     
@@ -37,9 +49,44 @@ public class modelo {
     public void setRuta(String ruta) {
         this.ruta = ruta;
     }
-    
+    public String [] getencabezadoacces_log(){
+            String[] encabezado = new String[]{
+                    "IP",
+                    "Cuenta",
+                    "Fecha y Hora",
+                    "Método",
+                    "Ruta",
+                    "Protocolo",
+                    "Estado",
+                    "Respuesta",
+                    "Referer",
+                    "Sistema Operativo",
+                    "Navegador"
+                    };
+        return encabezado;    
+            
+    }
+     public String [] getencabezadoerror_log(){
+            String[] encabezado = new String[]{
+                    "IP",
+                    "Cuenta",
+                    "Fecha y Hora",
+                    "Método"
+            };
+        return encabezado;    
+            
+    }
+      public String [] getencabezadoFTP(){
+            String[] encabezado = new String[]{
+                    "IP",
+                    "Cuenta",
+                   
+                    };
+        return encabezado;    
+            
+    }
     //codigo para parametrizar logs
-    public  List<Parametrosapache_acceslog> leerlog(){
+    public  List<Parametrosapache_acceslog> leerlogacces_log(){
         try{
             BufferedReader lector=new BufferedReader(new FileReader(ruta));
             String linea="";
@@ -58,7 +105,25 @@ public class modelo {
                     String referer = bloques[10];
                     String SO = bloques[13];
                     String navegador = bloques[17];
-                    lista.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
+                    lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
+                }
+            }
+            lector.close();
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null,"Error al leer el archivo"+e.getMessage());
+        
+        }
+        return lista1;
+    }
+    public  List<Parametrosapache_acceslog> leerlogerror_log(){
+        try{
+            BufferedReader lector=new BufferedReader(new FileReader(ruta));
+            String linea="";
+            
+            while((linea=lector.readLine())!=null){
+                String[]bloques=linea.split(" ");
+                if(bloques.length==18){
+                  
                 }
             }
             lector.close();
@@ -66,7 +131,25 @@ public class modelo {
             System.out.println("Error al leer el archivo"+e.getMessage());
         
         }
-        return lista;
+        return lista2;
+    }
+    public  List<Parametrosapache_acceslog> leerlogFTP(){
+        try{
+            BufferedReader lector=new BufferedReader(new FileReader(ruta));
+            String linea="";
+            
+            while((linea=lector.readLine())!=null){
+                String[]bloques=linea.split(" ");
+                if(bloques.length==18){
+                 
+                }
+            }
+            lector.close();
+        }catch(IOException e){
+            System.out.println("Error al leer el archivo"+e.getMessage());
+        
+        }
+        return lista3;
     }
     
     //autogenerear texto 
@@ -83,9 +166,5 @@ public class modelo {
        return this.respruta;
     
     }
-    //
-    
-    //un codigo que analize la ruta si es apacheacceslog o error log o FTP
-    
    
 }

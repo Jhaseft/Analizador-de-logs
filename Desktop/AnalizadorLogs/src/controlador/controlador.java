@@ -8,6 +8,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vista.*;
 import modelo.*;
@@ -73,6 +74,8 @@ public class controlador implements ActionListener {
          
     }
        //acciones para el boton de analizar datos
+       //C:\\Users\\ASUS\\Desktop\\hola.txt
+       
     if(e.getSource()==view1.btnanalizar){   
          
                     model.setRuta(view1.txtruta.getText());
@@ -80,9 +83,11 @@ public class controlador implements ActionListener {
                     view2.lblruta.setText(model.getRuta());
                     view2.setVisible(true);
                     //codigo para meter datos a tabla
-                    List<Parametrosapache_acceslog>lista=model.leerlog();
+                if(model.getRuta().contains("acces_log")||model.getRuta().contains("hola")){     
+                    List<Parametrosapache_acceslog>lista=model.leerlogacces_log();
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
+                    modelo.setColumnIdentifiers(model.getencabezadoacces_log());
                     for(Parametrosapache_acceslog p:lista){
                         modelo.addRow(new Object[]{
                             p.getIP(),
@@ -98,16 +103,36 @@ public class controlador implements ActionListener {
                             p.getNavegador()
                         });
                         
-                        }
                     }
+                }
+                if(model.getRuta().contains("error_log")){  
+                         List<Parametrosapache_acceslog>lista=model.leerlogacces_log();
+                         DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
+                         modelo.setRowCount(0);
+                         modelo.setColumnIdentifiers(model.getencabezadoerror_log());
+     
+                }
+                if(model.getRuta().contains("ftp")){
+                    DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
+                    modelo.setRowCount(0);
+                    modelo.setColumnIdentifiers(model.getencabezadoFTP());
+                        
+                        
+               }
+                         
+                            
+                    }
+                
+                }
+    }
                 
         
          
        
-    }
+    
    
     
     
-   }
+   
    
 
