@@ -38,7 +38,6 @@ public class ASO02 extends javax.swing.JFrame {
 //        this.repaint();
     }
     
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
