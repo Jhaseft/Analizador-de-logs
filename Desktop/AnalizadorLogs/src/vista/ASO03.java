@@ -35,11 +35,7 @@ public class ASO03 extends javax.swing.JFrame {
 //        this.repaint();
     }
     
-    @Override
-    public Image getIconImage(){
-        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("images/icon.png"));
-        return retValue;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
