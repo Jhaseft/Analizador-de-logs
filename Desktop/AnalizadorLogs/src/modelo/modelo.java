@@ -78,9 +78,12 @@ public class modelo {
     }
       public String [] getencabezadoFTP(){
             String[] encabezado = new String[]{
-                    "IP",
-                    "Cuenta",
-                   
+                    "Fecha",
+                    "Pid",
+                    "Comando",
+                    "Usuario",
+                    "Ip",
+                    "Mensaje",
                     };
         return encabezado;    
             
@@ -111,7 +114,7 @@ public class modelo {
             lector.close();
         }catch(IOException e){
             JOptionPane.showMessageDialog(null,"Error al leer el archivo"+e.getMessage());
-        
+            return null;
         }
         return lista1;
     }
@@ -136,124 +139,125 @@ public class modelo {
     
     
     //vsftpd jhoel
-    public  List<Parametros_vsftpd> leerLogVsftpd(){
-        try {
-            BufferedReader lector = new BufferedReader(new FileReader(ruta));
-            String linea = "";
-            
-            while ((linea = lector.readLine()) != null) {
-                // Procesar diferentes tipos de líneas del log
-                if (linea.contains("CONNECT") || linea.contains("LOGIN")) {
-                    procesarConexion(linea);
-                } else if (linea.contains("UPLOAD") || linea.contains("DOWNLOAD")) {
-                    procesarTransferencia(linea);
-                } else if (linea.contains("COMMAND")) {
-                    procesarComando(linea);
-                }
+     public List<Parametros_vsftpd> leerLogVsftpd() {
+    try {
+        BufferedReader lector = new BufferedReader(new FileReader(ruta));
+        String linea="";
+        while ((linea = lector.readLine()) != null) {
+            String normalizar = normalizarlinea(linea);
+            String[] bloques = normalizar.split(" ");
+            String fecha = bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] + " " + bloques[5]; // Fecha completa
+            String pid = bloques[7];
+            String comandoftp = bloques[8];
+
+            // Procesar dependiendo del comando FTP
+            if (comandoftp.equals("CONNECT:")) {
+                procesarConectar(fecha, pid, comandoftp, bloques);
+            } else if (comandoftp.equals("FTP")) {
+                // El comando FTP puede tener parámetros adicionales como FTP <comando>
+                procesarFtp(fecha, pid, comandoftp, bloques);
+            } else if (comandoftp.equals("OK UPLOAD:")|| comandoftp.equals("FAIL UPLOAD:")) {
+                procesarUpload(fecha, pid, comandoftp, bloques);
+            } else  if (comandoftp.equals("OK LOGIN:") || comandoftp.equals("FAIL LOGIN:")) {
+                procesarLogin(fecha, pid, comandoftp, bloques);
+            } else if (comandoftp.equals("OK DOWNLOAD:")|| comandoftp.equals("FAIL DOWNLOAD:")) {
+                procesardownload(fecha, pid, comandoftp, bloques);
+            } else {
+                procesarMensajeGenerico(fecha, pid, comandoftp, bloques);
             }
-            lector.close();
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
         }
-        return lista3;
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
     }
-    
-    private void procesarConexion(String linea) {
-        String[] bloques = linea.split("\\[|\\]|\"");
-        
-        if (bloques.length >= 6) {
-            String fechaHora = bloques[0].trim();
-            String pid = bloques[1].replace("pid", "").trim();
-            String usuario = bloques[2].trim();
-            String estado = bloques[3].trim().split(" ")[0]; // OK o FAIL
-            String tipoEvento = bloques[3].trim().split(" ")[1]; // CONNECT o LOGIN
-            String IP = bloques[5].trim();
-            
-            lista3.add(new Parametros_vsftpd(
-                IP, 
-                usuario, 
-                fechaHora, 
-                null, // comando
-                null, // respuesta
-                null, // archivo
-                null, // tamaño
-                null, // tiempoTransferencia
-                null, // velocidad
-                estado,
-                tipoEvento
-            ));
-        }
+    return lista3;
+}
+
+private void procesarConectar(String fecha, String pid, String comandoftp, String[] bloques) {
+    String ip = bloques[10];
+    lista3.add(new Parametros_vsftpd(fecha, pid, comandoftp, "local host", ip, "Alguien trata de entrar al servidor"));
+}
+
+private void procesarFtp(String fecha, String pid, String comandoftp, String[] bloques) {
+    comandoftp=comandoftp+" "+bloques[9];
+    String ip=bloques[11];
+    String mensaje=armarmensaje(bloques,12);
+    lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,"local host",ip,mensaje));
+}
+
+private void procesarUpload(String fecha, String pid, String comandoftp, String[] bloques) {
+   String res="";
+    String usuario=comandoftp;
+    comandoftp=bloques[9]+" "+bloques[10];
+    String ip=bloques[12];
+    String mensaje=armarmensaje(bloques,13);
+    if(comandoftp.equals("OK UPLOAD:")){
+        res="Se subio con exito el archivo: ";
+    }else{
+        res="No se subio con exito el archivo: ";
     }
-    
-    private void procesarTransferencia(String linea) {
-        String[] bloques = linea.split("\\[|\\]|\"|,");
-        
-        if (bloques.length >= 9) {
-            String fechaHora = bloques[0].trim();
-            String pid = bloques[1].replace("pid", "").trim();
-            String usuario = bloques[2].trim();
-            String estado = bloques[3].trim().split(" ")[0]; // OK o FAIL
-            String tipoEvento = bloques[3].trim().split(" ")[1]; // UPLOAD o DOWNLOAD
-            String IP = bloques[5].trim();
-            String archivo = bloques[7].trim();
-            String[] datosTransferencia = bloques[8].trim().split(" ");
-            String tamaño = datosTransferencia[0] + " " + datosTransferencia[1];
-            String velocidad = datosTransferencia.length > 3 ? 
-                datosTransferencia[2] + " " + datosTransferencia[3] : "";
-            
-            lista3.add(new Parametros_vsftpd(
-                IP, 
-                usuario, 
-                fechaHora, 
-                null, // comando
-                null, // respuesta
-                archivo, 
-                tamaño, 
-                null, // tiempoTransferencia
-                velocidad, 
-                estado,
-                tipoEvento
-            ));
-        }
+
+    lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+mensaje));
+}
+private void procesarLogin(String fecha, String pid, String comandoftp, String[] bloques) {
+    String res="";
+    String usuario=comandoftp;
+    comandoftp=bloques[9]+" "+bloques[10];
+    if(comandoftp.equals("OK LOGIN:")){
+        res="Acceso permitido a ";
+    }else{
+        res="Acceso denegado a ";
     }
-    
-    private void procesarComando(String linea) {
-        String[] bloques = linea.split("\\[|\\]|\"");
-        
-        if (bloques.length >= 8) {
-            String fechaHora = bloques[0].trim();
-            String pid = bloques[1].replace("pid", "").trim();
-            String usuario = bloques[2].trim();
-            String estado = bloques[3].trim().split(" ")[0]; // OK o FAIL
-            String tipoEvento = bloques[3].trim().split(" ")[1]; // COMMAND
-            String IP = bloques[5].trim();
-            String comando = bloques[7].trim();
-            
-            lista3.add(new Parametros_vsftpd(
-                IP, 
-                usuario, 
-                fechaHora, 
-                comando, 
-                null, // respuesta
-                null, // archivo
-                null, // tamaño
-                null, // tiempoTransferencia
-                null, // velocidad
-                estado,
-                tipoEvento
-            ));
-        }
+    String ip=bloques[12];
+    lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+usuario));
+}
+
+private void procesardownload(String fecha, String pid, String comandoftp, String[] bloques) {
+     String res="";
+    String usuario=comandoftp;
+    comandoftp=bloques[9]+" "+bloques[10];
+    if(comandoftp.equals("OK DOWNLOAD:")){
+        res="Descarga exitosa, archivo: ";
+    }else{
+        res="No se puedo descargar el archivo: ";
     }
+    String ip=bloques[12];
+    String mensaje=armarmensaje(bloques,13);
+    lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+mensaje));
+}
+
+private void procesarMensajeGenerico(String fecha, String pid, String comandoftp, String[] bloques) {
+    String usuario=comandoftp;
+    comandoftp=bloques[9]+" "+bloques[10];
+    String mensaje = armarmensaje(bloques, 13);
+    String ip = bloques[12];
+    lista3.add(new Parametros_vsftpd(fecha, pid, comandoftp, usuario, ip, mensaje));
+}
+private String normalizarlinea(String cadena){
+        cadena = cadena.replace("[", "");
+        cadena = cadena.replace("]", ""); 
+        cadena = cadena.replace("\"", ""); // Comilla doble
+        return cadena;
+    }
+    private String armarmensaje(String bloques[],int pos){
+        String res="";
+        for(int i=pos;i<bloques.length;i++){
+            res=res+" "+bloques[i];
+       }
     
+        return res;
+    }
     //autogenerear texto 
     public String analizajbox(){
        
-        if (ruta.equalsIgnoreCase("Apache")) {
-            respruta = "/var/log/apache";
+        if (ruta.equalsIgnoreCase("Acces")) {
+            //respruta = "/var/log/apache2/acces_log";
+            respruta="C:\\Users\\ASUS\\Desktop\\acces_log.txt";
         } else if (ruta.equalsIgnoreCase("FTP")) {
-            respruta = "/var/log/vsftpd.log";
+            //respruta = "/var/log/vsftpd_log";
+            respruta="C:\\Users\\ASUS\\Desktop\\vsftpd.txt";
         } else if (ruta.equalsIgnoreCase("Error")) {
-            respruta = "/var/log/error.log";
+            //respruta = "/var/log/apache2/error_log";
+            respruta="C:\\Users\\ASUS\\Desktop\\error_log.txt";
         }
         return this.respruta;
     

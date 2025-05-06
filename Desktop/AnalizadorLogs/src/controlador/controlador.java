@@ -7,6 +7,8 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +48,7 @@ public class controlador implements ActionListener {
          view1.txtruta.setEnabled(true);
          view1.jbox1.setSelectedIndex(0);
          view1.txtmens.setText("");
+         view1.txtruta.setText("");
     }
       //acciones para el boton de salir
      if(e.getSource()==view1.btnsalir){    
@@ -78,17 +81,17 @@ public class controlador implements ActionListener {
        
     if(e.getSource()==view1.btnanalizar){   
          
-                    model.setRuta(view1.txtruta.getText());
-                    view1.setVisible(false);
-                    view2.lblruta.setText(model.getRuta());
-                    view2.setVisible(true);
+                        model.setRuta(view1.txtruta.getText()); 
+                        view1.setVisible(false);
+                        view2.lblruta.setText(model.getRuta());
+                        view2.setVisible(true);
                     //codigo para meter datos a tabla
-                if(model.getRuta().contains("acces_log")||model.getRuta().contains("hola")){     
-                    List<Parametrosapache_acceslog>lista=model.leerlogacces_log();
-                    DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
-                    modelo.setRowCount(0);
-                    modelo.setColumnIdentifiers(model.getencabezadoacces_log());
-                    for(Parametrosapache_acceslog p:lista){
+                if(model.getRuta().contains("acces_log")){
+                    List<Parametrosapache_acceslog>lista1=model.leerlogacces_log();
+                        DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoacces_log());
+                        for(Parametrosapache_acceslog p:lista1){
                         modelo.addRow(new Object[]{
                             p.getIP(),
                             p.getCuenta(),
@@ -101,30 +104,46 @@ public class controlador implements ActionListener {
                             p.getReferer(),
                             p.getSO(),
                             p.getNavegador()
-                        });
-                        
-                    }
+                             }); 
+                        }
+                       
+                   
                 }
                 if(model.getRuta().contains("error_log")){  
-                         List<Parametrosapache_acceslog>lista=model.leerlogacces_log();
+                         List<Parametrosapache_acceslog>lista2=model.leerlogacces_log();
                          DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                          modelo.setRowCount(0);
                          modelo.setColumnIdentifiers(model.getencabezadoerror_log());
      
                 }
-                if(model.getRuta().contains("ftp")){
+                if(model.getRuta().contains("vsftpd")){
+                    
+                    List<Parametros_vsftpd>lista3=model.leerLogVsftpd();
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
                     modelo.setColumnIdentifiers(model.getencabezadoFTP());
-                        
+                    for(Parametros_vsftpd p:lista3){
+                        modelo.addRow(new Object[]{
+                            p.getFecha(),
+                            p.getPid(),
+                            p.getComando(),
+                            p.getUsuario(),
+                            p.getIp(),
+                            p.getMessage(),
+                            
+                        });      
                         
                }
-                         
-                            
-                    }
-                
                 }
     }
+   }
+}
+                         
+                            
+                    
+                
+                
+
                 
         
          

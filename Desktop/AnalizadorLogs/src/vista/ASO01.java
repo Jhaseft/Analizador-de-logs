@@ -74,7 +74,7 @@ public class ASO01 extends javax.swing.JFrame {
 
         jbox1.setBackground(new java.awt.Color(51, 51, 51));
         jbox1.setForeground(new java.awt.Color(255, 255, 255));
-        jbox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Apache", "FTP" }));
+        jbox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Acces", "Error", "FTP" }));
         jbox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbox1ActionPerformed(evt);
