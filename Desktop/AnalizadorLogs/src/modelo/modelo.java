@@ -20,7 +20,7 @@ public class modelo {
     private String respruta;
     private List<Parametrosapache_acceslog>lista1=new ArrayList<>();
     private List<Parametrosapache_acceslog>lista2=new ArrayList<>();
-    private List<Parametrosapache_acceslog>lista3=new ArrayList<>();
+    private List<Parametros_vsftpd>lista3=new ArrayList<>();
     private String tipo;
 
     public String getTipo() {
@@ -133,37 +133,129 @@ public class modelo {
         }
         return lista2;
     }
-    public  List<Parametrosapache_acceslog> leerlogFTP(){
-        try{
-            BufferedReader lector=new BufferedReader(new FileReader(ruta));
-            String linea="";
+    
+    
+    //vsftpd jhoel
+    public  List<Parametros_vsftpd> leerLogVsftpd(){
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(ruta));
+            String linea = "";
             
-            while((linea=lector.readLine())!=null){
-                String[]bloques=linea.split(" ");
-                if(bloques.length==18){
-                 
+            while ((linea = lector.readLine()) != null) {
+                // Procesar diferentes tipos de líneas del log
+                if (linea.contains("CONNECT") || linea.contains("LOGIN")) {
+                    procesarConexion(linea);
+                } else if (linea.contains("UPLOAD") || linea.contains("DOWNLOAD")) {
+                    procesarTransferencia(linea);
+                } else if (linea.contains("COMMAND")) {
+                    procesarComando(linea);
                 }
             }
             lector.close();
-        }catch(IOException e){
-            System.out.println("Error al leer el archivo"+e.getMessage());
-        
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
         }
         return lista3;
+    }
+    
+    private void procesarConexion(String linea) {
+        String[] bloques = linea.split("\\[|\\]|\"");
+        
+        if (bloques.length >= 6) {
+            String fechaHora = bloques[0].trim();
+            String pid = bloques[1].replace("pid", "").trim();
+            String usuario = bloques[2].trim();
+            String estado = bloques[3].trim().split(" ")[0]; // OK o FAIL
+            String tipoEvento = bloques[3].trim().split(" ")[1]; // CONNECT o LOGIN
+            String IP = bloques[5].trim();
+            
+            lista3.add(new Parametros_vsftpd(
+                IP, 
+                usuario, 
+                fechaHora, 
+                null, // comando
+                null, // respuesta
+                null, // archivo
+                null, // tamaño
+                null, // tiempoTransferencia
+                null, // velocidad
+                estado,
+                tipoEvento
+            ));
+        }
+    }
+    
+    private void procesarTransferencia(String linea) {
+        String[] bloques = linea.split("\\[|\\]|\"|,");
+        
+        if (bloques.length >= 9) {
+            String fechaHora = bloques[0].trim();
+            String pid = bloques[1].replace("pid", "").trim();
+            String usuario = bloques[2].trim();
+            String estado = bloques[3].trim().split(" ")[0]; // OK o FAIL
+            String tipoEvento = bloques[3].trim().split(" ")[1]; // UPLOAD o DOWNLOAD
+            String IP = bloques[5].trim();
+            String archivo = bloques[7].trim();
+            String[] datosTransferencia = bloques[8].trim().split(" ");
+            String tamaño = datosTransferencia[0] + " " + datosTransferencia[1];
+            String velocidad = datosTransferencia.length > 3 ? 
+                datosTransferencia[2] + " " + datosTransferencia[3] : "";
+            
+            lista3.add(new Parametros_vsftpd(
+                IP, 
+                usuario, 
+                fechaHora, 
+                null, // comando
+                null, // respuesta
+                archivo, 
+                tamaño, 
+                null, // tiempoTransferencia
+                velocidad, 
+                estado,
+                tipoEvento
+            ));
+        }
+    }
+    
+    private void procesarComando(String linea) {
+        String[] bloques = linea.split("\\[|\\]|\"");
+        
+        if (bloques.length >= 8) {
+            String fechaHora = bloques[0].trim();
+            String pid = bloques[1].replace("pid", "").trim();
+            String usuario = bloques[2].trim();
+            String estado = bloques[3].trim().split(" ")[0]; // OK o FAIL
+            String tipoEvento = bloques[3].trim().split(" ")[1]; // COMMAND
+            String IP = bloques[5].trim();
+            String comando = bloques[7].trim();
+            
+            lista3.add(new Parametros_vsftpd(
+                IP, 
+                usuario, 
+                fechaHora, 
+                comando, 
+                null, // respuesta
+                null, // archivo
+                null, // tamaño
+                null, // tiempoTransferencia
+                null, // velocidad
+                estado,
+                tipoEvento
+            ));
+        }
     }
     
     //autogenerear texto 
     public String analizajbox(){
        
-        if(ruta == "Apache"){
-            respruta="var/log/apache";
-        }else{
-            if(ruta == "FTP"){
-                respruta="var/log/vsfpd_log";
-            }
+        if (ruta.equalsIgnoreCase("Apache")) {
+            respruta = "/var/log/apache";
+        } else if (ruta.equalsIgnoreCase("FTP")) {
+            respruta = "/var/log/vsftpd.log";
+        } else if (ruta.equalsIgnoreCase("Error")) {
+            respruta = "/var/log/error.log";
         }
-
-       return this.respruta;
+        return this.respruta;
     
     }
    
