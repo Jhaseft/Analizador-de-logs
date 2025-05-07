@@ -86,7 +86,7 @@ public class controlador implements ActionListener {
                         view2.lblruta.setText(model.getRuta());
                         view2.setVisible(true);
                     //codigo para meter datos a tabla
-                if(model.getRuta().contains("acces_log")){
+                if(model.getRuta().contains("access_log")){
                     List<Parametrosapache_acceslog>lista1=model.leerlogacces_log();
                         DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                         modelo.setRowCount(0);
@@ -110,10 +110,20 @@ public class controlador implements ActionListener {
                    
                 }
                 if(model.getRuta().contains("error_log")){  
-                         List<Parametrosapache_acceslog>lista2=model.leerlogacces_log();
+                         List<Parametros_errorlog>lista2=model.leerlogerror_log();
                          DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                          modelo.setRowCount(0);
                          modelo.setColumnIdentifiers(model.getencabezadoerror_log());
+                         for(Parametros_errorlog p:lista2){
+                        modelo.addRow(new Object[]{
+                            p.getFecha(),
+                            p.getNivelLog(),
+                            p.getPid(),
+                            p.getComandoEjecutado(),
+                            p.getMensaje(),
+                        });      
+                        
+                    }
      
                 }
                 if(model.getRuta().contains("vsftpd")){
@@ -133,7 +143,7 @@ public class controlador implements ActionListener {
                             
                         });      
                         
-               }
+                    }
                 }
     }
    }

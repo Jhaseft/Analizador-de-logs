@@ -19,7 +19,7 @@ public class modelo {
     //usado solo para devolver ruta automatica
     private String respruta;
     private List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-    private List<Parametrosapache_acceslog>lista2=new ArrayList<>();
+    private List<Parametros_errorlog>lista2=new ArrayList<>();
     private List<Parametros_vsftpd>lista3=new ArrayList<>();
     private String tipo;
 
@@ -67,13 +67,14 @@ public class modelo {
             
     }
      public String [] getencabezadoerror_log(){
-            String[] encabezado = new String[]{
-                    "IP",
-                    "Cuenta",
-                    "Fecha y Hora",
-                    "Método"
+           String[] encabezado = new String[]{
+                    "Fecha",
+                    "Codigo",
+                    "Pid",
+                    "Comando",
+                    "Mensaje"
             };
-        return encabezado;    
+        return encabezado;  
             
     }
       public String [] getencabezadoFTP(){
@@ -118,9 +119,33 @@ public class modelo {
         }
         return lista1;
     }
-    public  List<Parametrosapache_acceslog> leerlogerror_log(){
-       
-        return lista2;
+    public  List<Parametros_errorlog> leerlogerror_log(){
+        try{
+        BufferedReader lector = new BufferedReader(new FileReader(ruta));
+        String linea="";
+        while ((linea = lector.readLine()) != null) {  
+            String normalizar = normalizarlinea(linea);
+            String[] bloques = normalizar.split(" "); 
+            String codigo=bloques[0];
+            if(codigo.contains("AH")){
+                String comando=bloques[1]; 
+                String mensaje=armarmensaje(bloques,2);
+                lista2.add(new Parametros_errorlog("S/N",codigo,"-",comando,mensaje));
+            }else{
+                String fecha=bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] ;
+                String comando=bloques[5];
+                String pid=bloques[7];
+                String error=bloques[8];
+                String mensaje=armarmensaje(bloques,9);
+                lista2.add(new Parametros_errorlog(fecha,error,pid,comando,mensaje));
+            }
+            }
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
+        } 
+    
+    return lista2;
+        
     }
     
     
@@ -129,9 +154,10 @@ public class modelo {
     try {
         BufferedReader lector = new BufferedReader(new FileReader(ruta));
         String linea="";
-        while ((linea = lector.readLine()) != null) {
+    while ((linea = lector.readLine()) != null) {
             String normalizar = normalizarlinea(linea);
             String[] bloques = normalizar.split(" ");
+        if(bloques.length>7){
             String fecha = bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] + " " + bloques[5]; // Fecha completa
             String pid = bloques[7];
             String comandoftp = bloques[8];
@@ -151,7 +177,9 @@ public class modelo {
             } else {
                 procesarMensajeGenerico(fecha, pid, comandoftp, bloques);
             }
+            
         }
+    }
     } catch (IOException e) {
         JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
     }
