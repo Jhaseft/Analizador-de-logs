@@ -119,21 +119,7 @@ public class modelo {
         return lista1;
     }
     public  List<Parametrosapache_acceslog> leerlogerror_log(){
-        try{
-            BufferedReader lector=new BufferedReader(new FileReader(ruta));
-            String linea="";
-            
-            while((linea=lector.readLine())!=null){
-                String[]bloques=linea.split(" ");
-                if(bloques.length==18){
-                  
-                }
-            }
-            lector.close();
-        }catch(IOException e){
-            System.out.println("Error al leer el archivo"+e.getMessage());
-        
-        }
+       
         return lista2;
     }
     
