@@ -8,10 +8,11 @@ package modelo;
  *
  * @author saat
  */
+import java.sql.*;
 public class Parametrosapache_acceslog {
     private String IP; 
     private String cuenta;
-    private String fechaHora;
+    private Timestamp fechaHora;
     private String metodo;
     private String Ruta;
     private String protocolo;
@@ -21,7 +22,7 @@ public class Parametrosapache_acceslog {
     private String SO;
     private String navegador;
 
-    public Parametrosapache_acceslog(String IP, String cuenta, String fechaHora, String metodo, String Ruta, String protocolo, String estado, String respuesta, String referer, String SO, String navegador) {
+    public Parametrosapache_acceslog(String IP, String cuenta, Timestamp fechaHora, String metodo, String Ruta, String protocolo, String estado, String respuesta, String referer, String SO, String navegador) {
         this.IP = IP;
         this.cuenta = cuenta;
         this.fechaHora = fechaHora;
@@ -65,11 +66,11 @@ public class Parametrosapache_acceslog {
         this.cuenta = cuenta;
     }
 
-    public String getFechaHora() {
+    public Timestamp getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(String fechaHora) {
+    public void setFechaHora(Timestamp fechaHora) {
         this.fechaHora = fechaHora;
     }
 

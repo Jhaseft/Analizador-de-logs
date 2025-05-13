@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vista;
-
+import java.sql.*; 
 import controlador.controlador;
 import java.awt.Image;
 import java.awt.Toolkit;

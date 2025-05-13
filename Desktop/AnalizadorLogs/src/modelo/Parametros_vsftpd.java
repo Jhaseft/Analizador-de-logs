@@ -3,15 +3,16 @@ package modelo;
  *
  * @author Usuario
  */
+import java.sql.*;
 public class Parametros_vsftpd {
-    private String fecha;
+    private Timestamp fecha;
     private String pid;
     private String comando;
     private String usuario;
     private String ip;
     private String message;
 
-    public Parametros_vsftpd(String fecha, String pid, String comando, String usuario, String ip, String message) {
+    public Parametros_vsftpd(Timestamp fecha, String pid, String comando, String usuario, String ip, String message) {
         this.fecha = fecha;
         this.pid = pid;
         this.comando = comando;
@@ -20,11 +21,11 @@ public class Parametros_vsftpd {
         this.message = message;
     }
 
-    public String getFecha() {
+    public Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 

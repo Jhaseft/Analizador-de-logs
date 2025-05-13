@@ -4,12 +4,13 @@
  */
 package modelo;
 
+import java.sql.*;
 /**
  *
  * @author saat
  */
 public class Parametros_errorlog {
-         private String fecha;  
+    private Timestamp fecha;  
     private String codigoerror;
     private String pid;
     private String comandoEjecutado;
@@ -17,7 +18,7 @@ public class Parametros_errorlog {
     
 
     // Constructor
-    public Parametros_errorlog(String fecha, String nivelLog, String pid,String comandoEjecutado ,String mensaje ) {
+    public Parametros_errorlog(Timestamp fecha, String nivelLog, String pid,String comandoEjecutado ,String mensaje ) {
         this.fecha = fecha;
         this.codigoerror = nivelLog;
         this.pid = pid;
@@ -26,11 +27,11 @@ public class Parametros_errorlog {
     }
 
     // Getters y Setters
-    public String getFecha() {
+    public Timestamp getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 

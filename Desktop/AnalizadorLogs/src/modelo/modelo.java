@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package modelo;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
 import javax.swing.JOptionPane;
+import java.sql.*;
+ import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Date;
 /**
  *
  * @author saat
@@ -91,34 +96,88 @@ public class modelo {
     }
     //codigo para parametrizar logs
     public  List<Parametrosapache_acceslog> leerlogacces_log(){
-        try{
+         try{
             BufferedReader lector=new BufferedReader(new FileReader(ruta));
             String linea="";
             
-            while((linea=lector.readLine())!=null){
-                String[]bloques=linea.split(" ");
-                if(bloques.length==18){
+            while((linea=lector.readLine())!=null){ 
+                String normalizar = normalizarlinea(linea);
+                String[] bloques = normalizar.split(" "); 
+                if(bloques.length>=18){
                     String IP = bloques[0];
-                    String cuenta = bloques[2];
-                    String fechaHora =bloques[3]; 
+                    String cuenta = bloques[2]; 
+                    Timestamp fechaHora =convertiracces(bloques[3]); 
                     String metodo = bloques[5];
                     String Ruta = bloques[6];
                     String protocolo = bloques[7];
                     String estado =bloques[8];  
-                    String respuesta = bloques[9]; 
+                    String respuesta = bloques[9];  
                     String referer = bloques[10];
                     String SO = bloques[13];
                     String navegador = bloques[17];
                     lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
+                }else{
+                    if(bloques.length>=11){ 
+                        String IP = bloques[0];
+                        String cuenta = bloques[2];
+                        Timestamp fechaHora =convertiracces(bloques[3]); 
+                        String metodo = bloques[5];
+                        String Ruta = bloques[6];
+                        String protocolo = bloques[7];
+                        String estado =bloques[8];  
+                        String respuesta = bloques[9];  
+                        String referer = bloques[10];
+                        String SO = "";
+                        String navegador = bloques[11];
+                        lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));  
+                    }else{
+                         if(bloques.length>=9){
+                            String IP = bloques[0];
+                            String cuenta = bloques[2];
+                            Timestamp fechaHora =convertiracces(bloques[3]); 
+                            String metodo = bloques[5];
+                            String Ruta = bloques[6];
+                            String protocolo = bloques[7];
+                            String estado =bloques[8];  
+                            String respuesta = bloques[9];  
+                            String referer="-";
+                            String SO = "-";
+                            String navegador = "-";
+                            lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));  
+                    
+                                
+                        }else{
+                           String IP = bloques[0];
+                            String cuenta = "-";
+                            Timestamp fechaHora =Timestamp.valueOf("1970-12-31 23:59:59"); 
+                            String metodo = "-";
+                            String Ruta = "-";
+                            String protocolo = "-";
+                            String estado ="-";  
+                            String respuesta = "-";  
+                            String referer="-";
+                            String SO = "-";
+                            String navegador = "-";
+                            lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));  
+                      
+                         }
+                    
+                    }
                 }
             }
             lector.close();
         }catch(IOException e){
             JOptionPane.showMessageDialog(null,"Error al leer el archivo"+e.getMessage());
-            return null;
+        
         }
         return lista1;
     }
+    
+   
+    
+    
+    
+    
     public  List<Parametros_errorlog> leerlogerror_log(){
         try{
         BufferedReader lector = new BufferedReader(new FileReader(ruta));
@@ -130,9 +189,10 @@ public class modelo {
             if(codigo.contains("AH")){
                 String comando=bloques[1]; 
                 String mensaje=armarmensaje(bloques,2);
-                lista2.add(new Parametros_errorlog("S/N",codigo,"-",comando,mensaje));
+                Timestamp fecha =Timestamp.valueOf("1970-12-31 23:59:59");
+                lista2.add(new Parametros_errorlog(fecha,codigo,"-",comando,mensaje));
             }else{
-                String fecha=bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] ;
+                Timestamp fecha=convertirerror(bloques[0] + " "  + bloques[1] + " " + bloques[2] + " " + bloques[4]+" " + bloques[3] ); 
                 String comando=bloques[5];
                 String pid=bloques[7];
                 String error=bloques[8];
@@ -147,8 +207,51 @@ public class modelo {
     return lista2;
         
     }
-    
-    
+    public Timestamp convertiracces(String fecha){ 
+        fecha=fecha.replace("/","-");
+        int separador=fecha.indexOf(":");
+        fecha=fecha.substring(0,separador)+" "+fecha.substring(separador+1);
+        try{
+            SimpleDateFormat form=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.ENGLISH);
+            Date fech=form.parse(fecha);
+            return new Timestamp(fech.getTime());
+        }catch(Exception e){
+            return null;
+        }
+        
+    }
+    public Timestamp convertirerror(String fecha){  
+       
+        try{
+            int punto = fecha.indexOf(".");
+            fecha = fecha.substring(0, punto);
+              String[] partes = fecha.split(" ");
+
+        
+            String nuevaFecha = partes[2] + "-" + partes[1] + "-" + partes[3] + " " + partes[4];
+            String ffsf="";
+            
+            SimpleDateFormat form=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.ENGLISH);
+            Date fech=form.parse(nuevaFecha);
+            return new Timestamp(fech.getTime());
+        }catch(Exception e){
+            return null;
+        }
+        
+    }
+    public Timestamp convertirftp(String fecha){  
+       
+        try{
+            String[] partes = fecha.split(" "); 
+            String nuevaFecha = partes[2] + "-" + partes[1] + "-" + partes[4] + " " + partes[3];
+            SimpleDateFormat form=new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.ENGLISH);
+            Date fech=form.parse(nuevaFecha);
+            return new Timestamp(fech.getTime());
+        }catch(Exception e){
+            return null;
+        }
+        
+    }
     //vsftpd jhoel
      public List<Parametros_vsftpd> leerLogVsftpd() {
     try {
@@ -158,7 +261,7 @@ public class modelo {
             String normalizar = normalizarlinea(linea);
             String[] bloques = normalizar.split(" ");
         if(bloques.length>7){
-            String fecha = bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] + " " + bloques[5]; // Fecha completa
+            Timestamp fecha = convertirftp(bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] + " " + bloques[5]); // Fecha completa
             String pid = bloques[7];
             String comandoftp = bloques[8];
 
@@ -186,19 +289,19 @@ public class modelo {
     return lista3;
 }
 
-private void procesarConectar(String fecha, String pid, String comandoftp, String[] bloques) {
+private void procesarConectar(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
     String ip = bloques[10];
     lista3.add(new Parametros_vsftpd(fecha, pid, comandoftp, "local host", ip, "Alguien trata de entrar al servidor"));
 }
 
-private void procesarFtp(String fecha, String pid, String comandoftp, String[] bloques) {
+private void procesarFtp(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
     comandoftp=comandoftp+" "+bloques[9];
     String ip=bloques[11];
     String mensaje=armarmensaje(bloques,12);
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,"local host",ip,mensaje));
 }
 
-private void procesarUpload(String fecha, String pid, String comandoftp, String[] bloques) {
+private void procesarUpload(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
    String res="";
     String usuario=comandoftp;
     comandoftp=bloques[9]+" "+bloques[10];
@@ -212,7 +315,7 @@ private void procesarUpload(String fecha, String pid, String comandoftp, String[
 
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+mensaje));
 }
-private void procesarLogin(String fecha, String pid, String comandoftp, String[] bloques) {
+private void procesarLogin(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
     String res="";
     String usuario=comandoftp;
     comandoftp=bloques[9]+" "+bloques[10];
@@ -225,7 +328,7 @@ private void procesarLogin(String fecha, String pid, String comandoftp, String[]
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+usuario));
 }
 
-private void procesardownload(String fecha, String pid, String comandoftp, String[] bloques) {
+private void procesardownload(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
      String res="";
     String usuario=comandoftp;
     comandoftp=bloques[9]+" "+bloques[10];
@@ -239,7 +342,7 @@ private void procesardownload(String fecha, String pid, String comandoftp, Strin
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+mensaje));
 }
 
-private void procesarMensajeGenerico(String fecha, String pid, String comandoftp, String[] bloques) {
+private void procesarMensajeGenerico(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
     String usuario=comandoftp;
     comandoftp=bloques[9]+" "+bloques[10];
     String mensaje = armarmensaje(bloques, 13);

@@ -7,8 +7,16 @@ package vista;
 import controlador.controlador;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.text.TabableView;
 import modelo.modelo;
 
 /**
@@ -23,19 +31,49 @@ public class ASO02 extends javax.swing.JFrame {
     public ASO02() {
         
         initComponents();
-        setSize(550, 400);
+        setSize(1180,560);
         /*para que no se pueda modificar el tamaño*/
         setResizable(false);
         setTitle("Analizador de Logs");
         setLocationRelativeTo(null);
-        
+        popup();
         ImageIcon fondo = new ImageIcon("src/images/fondo.jpg");
         /*Para que la imagen se adapte a las dimensiones del fondo o jLabel_fondo.*/
-        Icon iconoFondo = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_fondo.getWidth(), 
-                            jLabel_fondo.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_fondo.setIcon(iconoFondo);
+        Icon iconoFondo = new ImageIcon(fondo.getImage().getScaledInstance(this.fondo.getWidth(), 
+                            this.fondo.getHeight(), Image.SCALE_DEFAULT));
+        this.fondo.setIcon(iconoFondo);
         /*Para asegurar que la imagen se vea.*/
 //        this.repaint();
+    }
+    public void popup(){
+        JPopupMenu popumenu=new JPopupMenu();
+        JMenuItem item1 =new JMenuItem("Copiar");
+        item1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 int[] filas =Tabla1.getSelectedRows(); // varias filas seleccionadas
+                int columnas = Tabla1.getColumnCount();
+
+                if (filas.length > 0) {
+                StringBuilder sb = new StringBuilder();
+    
+                for (int fila : filas) {
+              for (int col = 0; col < columnas; col++) {
+            Object valor = Tabla1.getValueAt(fila, col);
+            sb.append(valor).append("\t"); // separador de columnas
+             }
+            sb.append("\n"); // separador de filas
+                 }
+
+    StringSelection seleccion = new StringSelection(sb.toString());
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    clipboard.setContents(seleccion, null);
+}   
+
+            }
+        });
+        popumenu.add(item1);
+        Tabla1.setComponentPopupMenu(popumenu);
     }
     
 
@@ -50,13 +88,24 @@ public class ASO02 extends javax.swing.JFrame {
 
         jLabel_servicio = new javax.swing.JLabel();
         jButton_volver = new javax.swing.JButton();
-        btnincidencias = new javax.swing.JButton();
-        btnbasededatos = new javax.swing.JButton();
-        lblruta = new javax.swing.JLabel();
-        btnfiltrar = new javax.swing.JButton();
+        btnreportes = new javax.swing.JButton();
+        btnactualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla1 = new javax.swing.JTable();
-        jLabel_fondo = new javax.swing.JLabel();
+        btnlistar = new javax.swing.JButton();
+        txtfech3 = new com.toedter.calendar.JDateChooser();
+        lblruta = new javax.swing.JLabel();
+        txtbuscado = new javax.swing.JTextField();
+        txtrango = new javax.swing.JButton();
+        lblbuscar = new javax.swing.JButton();
+        andor = new javax.swing.JTextField();
+        combox = new javax.swing.JComboBox<>();
+        txtfech = new com.toedter.calendar.JDateChooser();
+        txtfech2 = new com.toedter.calendar.JDateChooser();
+        txtbuscarfecha = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -65,7 +114,7 @@ public class ASO02 extends javax.swing.JFrame {
         jLabel_servicio.setBackground(new java.awt.Color(255, 255, 255));
         jLabel_servicio.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_servicio.setText("RUTA:");
-        getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, -1, 20));
+        getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 30));
 
         jButton_volver.setBackground(new java.awt.Color(51, 51, 51));
         jButton_volver.setForeground(new java.awt.Color(255, 255, 255));
@@ -75,31 +124,27 @@ public class ASO02 extends javax.swing.JFrame {
                 jButton_volverActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, -1, -1));
+        getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 160, 40));
 
-        btnincidencias.setBackground(new java.awt.Color(51, 51, 51));
-        btnincidencias.setForeground(new java.awt.Color(255, 255, 255));
-        btnincidencias.setText("INCIDENCIAS");
-        btnincidencias.addActionListener(new java.awt.event.ActionListener() {
+        btnreportes.setBackground(new java.awt.Color(51, 51, 51));
+        btnreportes.setForeground(new java.awt.Color(255, 255, 255));
+        btnreportes.setText("Reportes");
+        btnreportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnincidenciasActionPerformed(evt);
+                btnreportesActionPerformed(evt);
             }
         });
-        getContentPane().add(btnincidencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, -1, -1));
+        getContentPane().add(btnreportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 470, 170, 50));
 
-        btnbasededatos.setBackground(new java.awt.Color(51, 51, 51));
-        btnbasededatos.setForeground(new java.awt.Color(255, 255, 255));
-        btnbasededatos.setText("GUARDAR BD");
-        getContentPane().add(btnbasededatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 310, -1, -1));
-
-        lblruta.setBackground(new java.awt.Color(255, 255, 255));
-        lblruta.setForeground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(lblruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, 250, 20));
-
-        btnfiltrar.setBackground(new java.awt.Color(51, 51, 51));
-        btnfiltrar.setForeground(new java.awt.Color(255, 255, 255));
-        btnfiltrar.setText("VER/DIRIGIRSE");
-        getContentPane().add(btnfiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, -1, -1));
+        btnactualizar.setBackground(new java.awt.Color(51, 51, 51));
+        btnactualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnactualizar.setText("ACTUALIZAR");
+        btnactualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnactualizarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnactualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 470, 200, 50));
 
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,8 +156,71 @@ public class ASO02 extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, 170));
-        getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 370));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 1080, 310));
+
+        btnlistar.setBackground(new java.awt.Color(51, 51, 51));
+        btnlistar.setForeground(new java.awt.Color(255, 255, 255));
+        btnlistar.setText("LISTAR");
+        btnlistar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlistarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnlistar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 470, 170, 50));
+
+        txtfech3.setDateFormatString("yyyy-MM-dd");
+        getContentPane().add(txtfech3, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 20, 150, -1));
+
+        lblruta.setBackground(new java.awt.Color(255, 255, 255));
+        lblruta.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 250, 40));
+
+        txtbuscado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscadoActionPerformed(evt);
+            }
+        });
+        txtbuscado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuscadoKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtbuscado, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, 220, 30));
+
+        txtrango.setText("BUSCAR RANGO");
+        getContentPane().add(txtrango, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, -1, 20));
+
+        lblbuscar.setText("BUSCAR OCURRENCIA");
+        getContentPane().add(lblbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+        getContentPane().add(andor, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 220, 30));
+
+        combox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<>", "AND", "OR" }));
+        combox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboxActionPerformed(evt);
+            }
+        });
+        getContentPane().add(combox, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 70, -1, -1));
+
+        txtfech.setDateFormatString("yyyy-MM-dd");
+        getContentPane().add(txtfech, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 20, 150, -1));
+
+        txtfech2.setDateFormatString("yyyy-MM-dd");
+        getContentPane().add(txtfech2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 150, -1));
+
+        txtbuscarfecha.setText("BUSCAR FECHA");
+        getContentPane().add(txtbuscarfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 60, -1, 20));
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("DE");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, -1, 20));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("A");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 10, 20));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -124,10 +232,32 @@ public class ASO02 extends javax.swing.JFrame {
    
     }//GEN-LAST:event_jButton_volverActionPerformed
 
-    private void btnincidenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnincidenciasActionPerformed
+    private void btnreportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnreportesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnincidenciasActionPerformed
+    }//GEN-LAST:event_btnreportesActionPerformed
+
+    private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnactualizarActionPerformed
+
+    private void btnlistarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlistarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnlistarActionPerformed
+
+    private void txtbuscadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbuscadoActionPerformed
+
+    private void txtbuscadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscadoKeyReleased
+       
+    }//GEN-LAST:event_txtbuscadoKeyReleased
+
+    private void comboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboxActionPerformed
      
+     
+    
     /**
      * @param args the command line arguments
      */
@@ -165,13 +295,24 @@ public class ASO02 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTable Tabla1;
-    public javax.swing.JButton btnbasededatos;
-    public javax.swing.JButton btnfiltrar;
-    public javax.swing.JButton btnincidencias;
+    public javax.swing.JTextField andor;
+    public javax.swing.JButton btnactualizar;
+    public javax.swing.JButton btnlistar;
+    public javax.swing.JButton btnreportes;
+    public javax.swing.JComboBox<String> combox;
+    public javax.swing.JLabel fondo;
     public javax.swing.JButton jButton_volver;
-    public javax.swing.JLabel jLabel_fondo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel_servicio;
     private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JButton lblbuscar;
     public javax.swing.JLabel lblruta;
+    public javax.swing.JTextField txtbuscado;
+    public javax.swing.JButton txtbuscarfecha;
+    public com.toedter.calendar.JDateChooser txtfech;
+    public com.toedter.calendar.JDateChooser txtfech2;
+    public com.toedter.calendar.JDateChooser txtfech3;
+    public javax.swing.JButton txtrango;
     // End of variables declaration//GEN-END:variables
 }
