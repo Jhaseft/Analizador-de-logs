@@ -116,9 +116,8 @@ public class ASO02 extends javax.swing.JFrame {
         jLabel_servicio.setText("RUTA:");
         getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 30));
 
-        jButton_volver.setBackground(new java.awt.Color(51, 51, 51));
-        jButton_volver.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_volver.setText("VOLVER");
+        jButton_volver.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
+        jButton_volver.setText("Volver");
         jButton_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_volverActionPerformed(evt);
@@ -126,8 +125,7 @@ public class ASO02 extends javax.swing.JFrame {
         });
         getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, 160, 40));
 
-        btnreportes.setBackground(new java.awt.Color(51, 51, 51));
-        btnreportes.setForeground(new java.awt.Color(255, 255, 255));
+        btnreportes.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
         btnreportes.setText("Reportes");
         btnreportes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,9 +134,8 @@ public class ASO02 extends javax.swing.JFrame {
         });
         getContentPane().add(btnreportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 470, 170, 50));
 
-        btnactualizar.setBackground(new java.awt.Color(51, 51, 51));
-        btnactualizar.setForeground(new java.awt.Color(255, 255, 255));
-        btnactualizar.setText("ACTUALIZAR");
+        btnactualizar.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
+        btnactualizar.setText("Actualizar");
         btnactualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnactualizarActionPerformed(evt);
@@ -146,6 +143,7 @@ public class ASO02 extends javax.swing.JFrame {
         });
         getContentPane().add(btnactualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 470, 200, 50));
 
+        Tabla1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -158,9 +156,8 @@ public class ASO02 extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 1080, 310));
 
-        btnlistar.setBackground(new java.awt.Color(51, 51, 51));
-        btnlistar.setForeground(new java.awt.Color(255, 255, 255));
-        btnlistar.setText("LISTAR");
+        btnlistar.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
+        btnlistar.setText("Listar");
         btnlistar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnlistarActionPerformed(evt);
@@ -187,10 +184,12 @@ public class ASO02 extends javax.swing.JFrame {
         });
         getContentPane().add(txtbuscado, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 60, 220, 30));
 
-        txtrango.setText("BUSCAR RANGO");
+        txtrango.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        txtrango.setText("Buscar Rango");
         getContentPane().add(txtrango, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, -1, 20));
 
-        lblbuscar.setText("BUSCAR OCURRENCIA");
+        lblbuscar.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        lblbuscar.setText("Buscar Ocurrencia");
         getContentPane().add(lblbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
         getContentPane().add(andor, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 220, 30));
 
@@ -208,7 +207,8 @@ public class ASO02 extends javax.swing.JFrame {
         txtfech2.setDateFormatString("yyyy-MM-dd");
         getContentPane().add(txtfech2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 150, -1));
 
-        txtbuscarfecha.setText("BUSCAR FECHA");
+        txtbuscarfecha.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        txtbuscarfecha.setText("Buscar Fecha");
         getContentPane().add(txtbuscarfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 60, -1, 20));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
