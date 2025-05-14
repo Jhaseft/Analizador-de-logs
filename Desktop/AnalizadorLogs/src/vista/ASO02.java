@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.text.TabableView;
 import modelo.modelo;
+import com.toedter.calendar.JDateChooser;
 
 /**
  *
