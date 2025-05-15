@@ -106,6 +106,7 @@ public class ASO02 extends javax.swing.JFrame {
         txtbuscarfecha = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton_Alertas = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -221,6 +222,15 @@ public class ASO02 extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("A");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 10, 20));
+
+        jButton_Alertas.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        jButton_Alertas.setText("Alertas");
+        jButton_Alertas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_AlertasActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Alertas, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 100, 150, 30));
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));
 
         pack();
@@ -254,8 +264,12 @@ public class ASO02 extends javax.swing.JFrame {
     }//GEN-LAST:event_txtbuscadoKeyReleased
 
     private void comboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_comboxActionPerformed
+
+    private void jButton_AlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AlertasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_AlertasActionPerformed
      
      
     
@@ -302,6 +316,7 @@ public class ASO02 extends javax.swing.JFrame {
     public javax.swing.JButton btnreportes;
     public javax.swing.JComboBox<String> combox;
     public javax.swing.JLabel fondo;
+    public javax.swing.JButton jButton_Alertas;
     public javax.swing.JButton jButton_volver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

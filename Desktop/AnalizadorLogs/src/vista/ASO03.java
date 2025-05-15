@@ -51,8 +51,9 @@ public class ASO03 extends javax.swing.JFrame {
         jCheckBox_fallas = new javax.swing.JCheckBox();
         jCheckBox_errores = new javax.swing.JCheckBox();
         jCheckBox_accesosNoAutorizados = new javax.swing.JCheckBox();
-        jScrollPane_registro = new javax.swing.JScrollPane();
         btnvolver3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTabla_Errores = new javax.swing.JTable();
         jLabel_fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -68,7 +69,7 @@ public class ASO03 extends javax.swing.JFrame {
         getContentPane().add(jLabel_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
 
         jLabel_elegido.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_elegido.setText("Elegido...");
+        jLabel_elegido.setText("FIltro de Errores log");
         getContentPane().add(jLabel_elegido, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
 
         jCheckBox_fallas.setBackground(new java.awt.Color(51, 51, 51));
@@ -85,12 +86,26 @@ public class ASO03 extends javax.swing.JFrame {
         jCheckBox_accesosNoAutorizados.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox_accesosNoAutorizados.setText("ACCESOS NO AUTORIZADOS");
         getContentPane().add(jCheckBox_accesosNoAutorizados, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
-        getContentPane().add(jScrollPane_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 400, 140));
 
         btnvolver3.setBackground(new java.awt.Color(51, 51, 51));
         btnvolver3.setForeground(new java.awt.Color(255, 255, 255));
         btnvolver3.setText("VOLVER");
         getContentPane().add(btnvolver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
+
+        jTabla_Errores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTabla_Errores);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, 140));
         getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 370));
 
         pack();
@@ -130,6 +145,8 @@ public class ASO03 extends javax.swing.JFrame {
             }
         });
     }
+    
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnvolver3;
@@ -140,6 +157,7 @@ public class ASO03 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_fondo;
     private javax.swing.JLabel jLabel_observacion;
     private javax.swing.JLabel jLabel_servicio;
-    private javax.swing.JScrollPane jScrollPane_registro;
+    public javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTable jTabla_Errores;
     // End of variables declaration//GEN-END:variables
 }

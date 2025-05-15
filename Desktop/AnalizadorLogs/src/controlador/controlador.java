@@ -39,7 +39,7 @@ public class controlador implements ActionListener {
         this.view2 = view2;
         this.view3 = view3;
         this.model = model; 
-        //codigo para dar a los botones el escucha aaciones y puedan trabajar
+        //codigo para dar a los botones el escucha acciones y puedan trabajar
         this.view1.jbox1.addActionListener(this);
         this.view1.btnanalizar.addActionListener(this);
         this.view1.btningresardatos.addActionListener(this);
@@ -52,6 +52,7 @@ public class controlador implements ActionListener {
         this.view2.txtbuscarfecha.addActionListener(this);
         this.view2.lblbuscar.addActionListener(this);
         this.view2.combox.addActionListener(this);
+        this.view2.jButton_Alertas.addActionListener(this);
     }
    public void iniciar(){
        view1.setLocationRelativeTo(null);
@@ -78,6 +79,11 @@ public class controlador implements ActionListener {
         if(e.getSource()==view3.btnvolver3){    
          view3.setVisible(false);
          view2.setVisible(true);
+         }
+     //boton para ir a las alertas desde la ventana 2
+        if(e.getSource()==view2.jButton_Alertas){    
+         view2.setVisible(false);
+         view3.setVisible(true);
          }
      //acciones para el combobox
        if(e.getSource()==view1.jbox1){    
@@ -120,7 +126,7 @@ public class controlador implements ActionListener {
                 try {
                     if(model.getRuta().contains("access_log")){
                     List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from acces_log");
                       ResultSet rs=pst.executeQuery();
                       while(rs.next()) {
@@ -136,7 +142,7 @@ public class controlador implements ActionListener {
                     
                     if(model.getRuta().contains("error_log")){
                     List<Parametros_errorlog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from error_log");
                       ResultSet rs=pst.executeQuery();
                       while(rs.next()) {
@@ -152,7 +158,7 @@ public class controlador implements ActionListener {
                     
                      if(model.getRuta().contains("vsftpd")){ 
                      List<Parametros_vsftpd>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from ftp");
                       ResultSet rs=pst.executeQuery();
                       while(rs.next()) {
@@ -248,7 +254,7 @@ public class controlador implements ActionListener {
                   if(model.getRuta().contains("access_log")){
                    java.util.Date fecha = view2.txtfech.getDate();
                      java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "root","");
                      String sql = "SELECT * FROM acces_log WHERE DATE(Fecha) = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL);  
@@ -271,7 +277,7 @@ public class controlador implements ActionListener {
                   if(model.getRuta().contains("error_log")){
                    java.util.Date fecha = view2.txtfech.getDate();
                      java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "root","");
                      String sql = "SELECT * FROM error_log WHERE DATE(Fecha) = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL);  
@@ -290,7 +296,7 @@ public class controlador implements ActionListener {
                      if(model.getRuta().contains("vsftpd")){ 
                      java.util.Date fecha = view2.txtfech.getDate();
                      java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "root","");
                      String sql = "SELECT * FROM ftp WHERE DATE(Fecha) = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL);  
@@ -322,7 +328,7 @@ public class controlador implements ActionListener {
                       java.util.Date fecha2 = view2.txtfech3.getDate();
                      java.sql.Date fechaSQL2 = new java.sql.Date(fecha2.getTime());
                      
-                    Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                    Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "root","");
                     String sql = "SELECT * FROM acces_log WHERE DATE(Fecha) BETWEEN ? AND ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL1);
@@ -351,7 +357,7 @@ public class controlador implements ActionListener {
                       java.util.Date fecha2 = view2.txtfech3.getDate();
                      java.sql.Date fechaSQL2 = new java.sql.Date(fecha2.getTime());
                      
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "root","");
                      String sql = "SELECT * FROM error_log WHERE DATE(Fecha) BETWEEN ? AND ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL1);
@@ -375,7 +381,7 @@ public class controlador implements ActionListener {
                       java.util.Date fecha2 = view2.txtfech3.getDate();
                      java.sql.Date fechaSQL2 = new java.sql.Date(fecha2.getTime());
                      
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "root","");
                     String sql = "SELECT * FROM ftp WHERE DATE(Fecha) BETWEEN ? AND ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL1);
@@ -437,7 +443,7 @@ public class controlador implements ActionListener {
    private void buscarftp(String buscar){
        try {
                     List<Parametros_vsftpd>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM ftp WHERE " +
     "Fecha LIKE '%" + buscar + "%' OR " +
     "Pid LIKE '%" + buscar + "%' OR " +
@@ -464,7 +470,7 @@ public class controlador implements ActionListener {
    private void buscarerror(String buscar){
        try {
                     List<Parametros_errorlog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM error_log WHERE " +
     "Fecha LIKE '%" + buscar + "%' OR " +
     "Codigo LIKE '%" + buscar + "%' OR " +
@@ -489,7 +495,7 @@ public class controlador implements ActionListener {
    private void buscaracces(String buscar){
        try {
                     List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM acces_log WHERE " +
     "IP LIKE '%" + buscar + "%' OR " +
     "Cuenta LIKE '%" + buscar + "%' OR " +
@@ -523,7 +529,7 @@ public class controlador implements ActionListener {
    private void buscarftpand(String buscar1,String buscar2,String Operando){
        try {
                     List<Parametros_vsftpd>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM ftp WHERE " +
     "(" +
         "Fecha LIKE '%" + buscar1 + "%' OR " +
@@ -559,7 +565,7 @@ public class controlador implements ActionListener {
    private void buscarerrorand(String buscar1,String buscar2,String Operando){
        try {
                     List<Parametros_errorlog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM error_log WHERE " +
     "(" +
         "Fecha LIKE '%"+buscar1+"%' OR " +
@@ -592,7 +598,7 @@ public class controlador implements ActionListener {
    private void buscaraccesand(String buscar1,String buscar2,String Operando){
        try {
                     List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM acces_log WHERE " +
     "(" +
         "IP LIKE '%" + buscar1 + "%' OR " +
@@ -641,7 +647,7 @@ public class controlador implements ActionListener {
    ////////////////////////////////////////////////////////METER DATOS ALA BD/////////////////////////////////////////////////////
    private void meterdatosBDacces(List<Parametrosapache_acceslog>lista1){
        try {
-            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
             JOptionPane.showMessageDialog(null,"Conectanto con la base de datos");
              for(int i=0;i<lista1.size();i++){
              PreparedStatement pst=(PreparedStatement) con.prepareStatement("INSERT IGNORE INTO acces_log VALUES(?,?,?,?,?,?,?,?,?,?,?)");
@@ -667,7 +673,7 @@ public class controlador implements ActionListener {
    
     private void meterdatosBDerror(List<Parametros_errorlog>lista1){
        try {
-            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
             JOptionPane.showMessageDialog(null,"Conectanto con la base de datos");
             
              for(int i=0;i<lista1.size();i++){
@@ -689,7 +695,7 @@ public class controlador implements ActionListener {
         
    private void meterdatosBDftp(List<Parametros_vsftpd>lista1){
        try {
-            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","root","");
             JOptionPane.showMessageDialog(null,"Conectanto con la base de datos");
             
              for(int i=0;i<lista1.size();i++){
@@ -756,24 +762,4 @@ public class controlador implements ActionListener {
                              }); 
                         }
     }
-    
-   
-   
-
-}                         
-                            
-                    
-                
-                
-
-                
-        
-         
-       
-    
-   
-    
-    
-   
-   
-
+}                                                  
