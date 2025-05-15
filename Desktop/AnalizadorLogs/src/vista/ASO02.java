@@ -192,6 +192,11 @@ public class ASO02 extends javax.swing.JFrame {
 
         lblbuscar.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
         lblbuscar.setText("Buscar Ocurrencia");
+        lblbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblbuscarActionPerformed(evt);
+            }
+        });
         getContentPane().add(lblbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
         getContentPane().add(andor, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 220, 30));
 
@@ -270,6 +275,10 @@ public class ASO02 extends javax.swing.JFrame {
     private void jButton_AlertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AlertasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton_AlertasActionPerformed
+
+    private void lblbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblbuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblbuscarActionPerformed
      
      
     

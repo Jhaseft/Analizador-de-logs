@@ -20,7 +20,7 @@ public class ASO03 extends javax.swing.JFrame {
      */
     public ASO03() {
         initComponents();
-        setSize(550, 400);
+        setSize(955,470);
         /*para que no se pueda modificar el tamaño*/
         setResizable(false);
         setTitle("Analizador de Logs");
@@ -52,6 +52,7 @@ public class ASO03 extends javax.swing.JFrame {
         jCheckBox_errores = new javax.swing.JCheckBox();
         jCheckBox_accesosNoAutorizados = new javax.swing.JCheckBox();
         btnvolver3 = new javax.swing.JButton();
+        btnvolver4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTabla_Errores = new javax.swing.JTable();
         jLabel_fondo = new javax.swing.JLabel();
@@ -62,54 +63,65 @@ public class ASO03 extends javax.swing.JFrame {
 
         jLabel_servicio.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_servicio.setText("SERVICIO:");
-        getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
+        getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, -1, -1));
 
         jLabel_observacion.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_observacion.setText("OBSERVACIONES:");
-        getContentPane().add(jLabel_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+        getContentPane().add(jLabel_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, -1, -1));
 
         jLabel_elegido.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_elegido.setText("FIltro de Errores log");
-        getContentPane().add(jLabel_elegido, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        getContentPane().add(jLabel_elegido, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 40, -1, -1));
 
         jCheckBox_fallas.setBackground(new java.awt.Color(51, 51, 51));
         jCheckBox_fallas.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox_fallas.setText("FALLAS (ESTADO)");
-        getContentPane().add(jCheckBox_fallas, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, -1, -1));
+        getContentPane().add(jCheckBox_fallas, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 70, -1, -1));
 
         jCheckBox_errores.setBackground(new java.awt.Color(51, 51, 51));
         jCheckBox_errores.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox_errores.setText("ERRORES DEL SISTEMA");
-        getContentPane().add(jCheckBox_errores, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, -1, -1));
+        getContentPane().add(jCheckBox_errores, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, -1, -1));
 
         jCheckBox_accesosNoAutorizados.setBackground(new java.awt.Color(51, 51, 51));
         jCheckBox_accesosNoAutorizados.setForeground(new java.awt.Color(255, 255, 255));
         jCheckBox_accesosNoAutorizados.setText("ACCESOS NO AUTORIZADOS");
-        getContentPane().add(jCheckBox_accesosNoAutorizados, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
+        getContentPane().add(jCheckBox_accesosNoAutorizados, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 130, -1, -1));
 
         btnvolver3.setBackground(new java.awt.Color(51, 51, 51));
         btnvolver3.setForeground(new java.awt.Color(255, 255, 255));
-        btnvolver3.setText("VOLVER");
-        getContentPane().add(btnvolver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
+        btnvolver3.setText("FILTRAR");
+        getContentPane().add(btnvolver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 120, 210, -1));
+
+        btnvolver4.setBackground(new java.awt.Color(51, 51, 51));
+        btnvolver4.setForeground(new java.awt.Color(255, 255, 255));
+        btnvolver4.setText("VOLVER");
+        btnvolver4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnvolver4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnvolver4, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 390, -1, -1));
 
         jTabla_Errores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "IP", "Cuenta", "Fecha y Hora", "Método", "Ruta", "Protocolo", "Estado", "Respuesta", "Referer", "Sistema Operativo", "Navegador"
             }
         ));
         jScrollPane1.setViewportView(jTabla_Errores);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, 140));
-        getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 370));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 880, 210));
+        getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnvolver4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvolver4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnvolver4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,6 +162,7 @@ public class ASO03 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnvolver3;
+    public javax.swing.JButton btnvolver4;
     private javax.swing.JCheckBox jCheckBox_accesosNoAutorizados;
     private javax.swing.JCheckBox jCheckBox_errores;
     private javax.swing.JCheckBox jCheckBox_fallas;
