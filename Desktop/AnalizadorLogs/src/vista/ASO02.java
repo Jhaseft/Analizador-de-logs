@@ -106,7 +106,7 @@ public class ASO02 extends javax.swing.JFrame {
         txtbuscarfecha = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton_Filtrar = new javax.swing.JButton();
+        btnFiltrar = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -156,7 +156,7 @@ public class ASO02 extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 1080, 310));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 1080, 310));
 
         btnlistar.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
         btnlistar.setText("Listar");
@@ -223,9 +223,14 @@ public class ASO02 extends javax.swing.JFrame {
         jLabel2.setText("A");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 20, 10, 20));
 
-        jButton_Filtrar.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
-        jButton_Filtrar.setText("Filtrar");
-        getContentPane().add(jButton_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 100, 130, -1));
+        btnFiltrar.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 100, 130, -1));
         getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));
 
         pack();
@@ -261,6 +266,10 @@ public class ASO02 extends javax.swing.JFrame {
     private void comboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboxActionPerformed
+
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFiltrarActionPerformed
      
      
     
@@ -302,12 +311,12 @@ public class ASO02 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTable Tabla1;
     public javax.swing.JTextField andor;
+    public javax.swing.JButton btnFiltrar;
     public javax.swing.JButton btnactualizar;
     public javax.swing.JButton btnlistar;
     public javax.swing.JButton btnreportes;
     public javax.swing.JComboBox<String> combox;
     public javax.swing.JLabel fondo;
-    private javax.swing.JButton jButton_Filtrar;
     public javax.swing.JButton jButton_volver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -6,8 +6,14 @@ package vista;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -20,12 +26,12 @@ public class ASO03 extends javax.swing.JFrame {
      */
     public ASO03() {
         initComponents();
-        setSize(550, 400);
+        setSize(1178, 562);
         /*para que no se pueda modificar el tamaño*/
         setResizable(false);
         setTitle("Analizador de Logs");
         setLocationRelativeTo(null);
-        
+        popup();
         ImageIcon fondo = new ImageIcon("src/images/fondo.jpg");
         /*Para que la imagen se adapte a las dimensiones del fondo o jLabel_fondo.*/
         Icon iconoFondo = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_fondo.getWidth(), 
@@ -33,6 +39,37 @@ public class ASO03 extends javax.swing.JFrame {
         jLabel_fondo.setIcon(iconoFondo);
         /*Para asegurar que la imagen se vea.*/
 //        this.repaint();
+    }
+    
+    public void popup(){
+        JPopupMenu popumenu=new JPopupMenu();
+        JMenuItem item1 =new JMenuItem("Copiar");
+        item1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 int[] filas =Tabla1.getSelectedRows(); // varias filas seleccionadas
+                int columnas = Tabla1.getColumnCount();
+
+                if (filas.length > 0) {
+                StringBuilder sb = new StringBuilder();
+    
+                for (int fila : filas) {
+              for (int col = 0; col < columnas; col++) {
+            Object valor = Tabla1.getValueAt(fila, col);
+            sb.append(valor).append("\t"); // separador de columnas
+             }
+            sb.append("\n"); // separador de filas
+                 }
+
+    StringSelection seleccion = new StringSelection(sb.toString());
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    clipboard.setContents(seleccion, null);
+}   
+
+            }
+        });
+        popumenu.add(item1);
+        Tabla1.setComponentPopupMenu(popumenu);
     }
     
 
@@ -47,54 +84,72 @@ public class ASO03 extends javax.swing.JFrame {
 
         jLabel_servicio = new javax.swing.JLabel();
         jLabel_observacion = new javax.swing.JLabel();
-        jLabel_elegido = new javax.swing.JLabel();
-        jCheckBox_fallas = new javax.swing.JCheckBox();
-        jCheckBox_errores = new javax.swing.JCheckBox();
-        jCheckBox_accesosNoAutorizados = new javax.swing.JCheckBox();
-        jScrollPane_registro = new javax.swing.JScrollPane();
+        registro = new javax.swing.JScrollPane();
+        Tabla1 = new javax.swing.JTable();
         btnvolver3 = new javax.swing.JButton();
+        fallas = new javax.swing.JButton();
+        Errores = new javax.swing.JButton();
+        accesos = new javax.swing.JButton();
         jLabel_fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel_servicio.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
         jLabel_servicio.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_servicio.setText("SERVICIO:");
-        getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, -1, -1));
+        jLabel_servicio.setText("Servidor:");
+        getContentPane().add(jLabel_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 280, -1));
 
+        jLabel_observacion.setFont(new java.awt.Font("Vivaldi", 0, 24)); // NOI18N
         jLabel_observacion.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_observacion.setText("OBSERVACIONES:");
-        getContentPane().add(jLabel_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+        jLabel_observacion.setText("Observaciones:");
+        getContentPane().add(jLabel_observacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, -1, -1));
 
-        jLabel_elegido.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel_elegido.setText("Elegido...");
-        getContentPane().add(jLabel_elegido, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        Tabla1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "", "", "", ""
+            }
+        ));
+        registro.setViewportView(Tabla1);
 
-        jCheckBox_fallas.setBackground(new java.awt.Color(51, 51, 51));
-        jCheckBox_fallas.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox_fallas.setText("FALLAS (ESTADO)");
-        getContentPane().add(jCheckBox_fallas, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, -1, -1));
+        getContentPane().add(registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 1090, 340));
 
-        jCheckBox_errores.setBackground(new java.awt.Color(51, 51, 51));
-        jCheckBox_errores.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox_errores.setText("ERRORES DEL SISTEMA");
-        getContentPane().add(jCheckBox_errores, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, -1, -1));
+        btnvolver3.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        btnvolver3.setText("Volver");
+        btnvolver3.setBorder(new javax.swing.border.MatteBorder(null));
+        getContentPane().add(btnvolver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 500, 130, 40));
 
-        jCheckBox_accesosNoAutorizados.setBackground(new java.awt.Color(51, 51, 51));
-        jCheckBox_accesosNoAutorizados.setForeground(new java.awt.Color(255, 255, 255));
-        jCheckBox_accesosNoAutorizados.setText("ACCESOS NO AUTORIZADOS");
-        getContentPane().add(jCheckBox_accesosNoAutorizados, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 130, -1, -1));
-        getContentPane().add(jScrollPane_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 400, 140));
+        fallas.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        fallas.setText("Fallas");
+        getContentPane().add(fallas, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 30, 110, -1));
 
-        btnvolver3.setBackground(new java.awt.Color(51, 51, 51));
-        btnvolver3.setForeground(new java.awt.Color(255, 255, 255));
-        btnvolver3.setText("VOLVER");
-        getContentPane().add(btnvolver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, -1, -1));
-        getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 370));
+        Errores.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        Errores.setText("Errores");
+        getContentPane().add(Errores, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 70, 110, -1));
+
+        accesos.setFont(new java.awt.Font("Vivaldi", 0, 18)); // NOI18N
+        accesos.setText("Accesos no Autorizados");
+        accesos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accesosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(accesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 110, -1, -1));
+        getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void accesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accesosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_accesosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,14 +187,14 @@ public class ASO03 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton Errores;
+    public javax.swing.JTable Tabla1;
+    public javax.swing.JButton accesos;
     public javax.swing.JButton btnvolver3;
-    private javax.swing.JCheckBox jCheckBox_accesosNoAutorizados;
-    private javax.swing.JCheckBox jCheckBox_errores;
-    private javax.swing.JCheckBox jCheckBox_fallas;
-    private javax.swing.JLabel jLabel_elegido;
+    public javax.swing.JButton fallas;
     private javax.swing.JLabel jLabel_fondo;
     private javax.swing.JLabel jLabel_observacion;
     private javax.swing.JLabel jLabel_servicio;
-    private javax.swing.JScrollPane jScrollPane_registro;
+    public javax.swing.JScrollPane registro;
     // End of variables declaration//GEN-END:variables
 }

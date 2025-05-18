@@ -19,7 +19,7 @@ public class conexion {
         try{
             JOptionPane.showMessageDialog(null,"Haciendo conexion");
             Class.forName("com.mysql.jdbc.Driver");
-             con=DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+             con=DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
             JOptionPane.showMessageDialog(null,"Conexion exitosa");
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"Error "+e.getMessage());

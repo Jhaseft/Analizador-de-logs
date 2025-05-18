@@ -52,6 +52,12 @@ public class controlador implements ActionListener {
         this.view2.txtbuscarfecha.addActionListener(this);
         this.view2.lblbuscar.addActionListener(this);
         this.view2.combox.addActionListener(this);
+        this.view2.btnFiltrar.addActionListener(this);
+        this.view3.fallas.addActionListener(this);
+        this.view3.Errores.addActionListener(this);
+        this.view3.accesos.addActionListener(this);
+        
+        
     }
    public void iniciar(){
        view1.setLocationRelativeTo(null);
@@ -73,6 +79,11 @@ public class controlador implements ActionListener {
          view1.setVisible(true);
          view2.dispose();
         }
+    //boton para ir a la tercera ventana
+    if(e.getSource()==view2.btnFiltrar){
+        view2.setVisible(false);
+        view3.setVisible(true);
+    }
     
      //boton para volver de la tercera ventrana a la segunda
         if(e.getSource()==view3.btnvolver3){    
@@ -120,7 +131,7 @@ public class controlador implements ActionListener {
                 try {
                     if(model.getRuta().contains("access_log")){
                     List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from acces_log");
                       ResultSet rs=pst.executeQuery();
                       while(rs.next()) {
@@ -136,7 +147,7 @@ public class controlador implements ActionListener {
                     
                     if(model.getRuta().contains("error_log")){
                     List<Parametros_errorlog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from error_log");
                       ResultSet rs=pst.executeQuery();
                       while(rs.next()) {
@@ -152,7 +163,7 @@ public class controlador implements ActionListener {
                     
                      if(model.getRuta().contains("vsftpd")){ 
                      List<Parametros_vsftpd>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from ftp");
                       ResultSet rs=pst.executeQuery();
                       while(rs.next()) {
@@ -248,7 +259,7 @@ public class controlador implements ActionListener {
                   if(model.getRuta().contains("access_log")){
                    java.util.Date fecha = view2.txtfech.getDate();
                      java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso", "root","");
                      String sql = "SELECT * FROM acces_log WHERE DATE(Fecha) = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL);  
@@ -271,7 +282,7 @@ public class controlador implements ActionListener {
                   if(model.getRuta().contains("error_log")){
                    java.util.Date fecha = view2.txtfech.getDate();
                      java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso", "root","");
                      String sql = "SELECT * FROM error_log WHERE DATE(Fecha) = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL);  
@@ -290,7 +301,7 @@ public class controlador implements ActionListener {
                      if(model.getRuta().contains("vsftpd")){ 
                      java.util.Date fecha = view2.txtfech.getDate();
                      java.sql.Date fechaSQL = new java.sql.Date(fecha.getTime());
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso", "root","");
                      String sql = "SELECT * FROM ftp WHERE DATE(Fecha) = ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL);  
@@ -322,7 +333,7 @@ public class controlador implements ActionListener {
                       java.util.Date fecha2 = view2.txtfech3.getDate();
                      java.sql.Date fechaSQL2 = new java.sql.Date(fecha2.getTime());
                      
-                    Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                    Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso", "root","");
                     String sql = "SELECT * FROM acces_log WHERE DATE(Fecha) BETWEEN ? AND ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL1);
@@ -351,7 +362,7 @@ public class controlador implements ActionListener {
                       java.util.Date fecha2 = view2.txtfech3.getDate();
                      java.sql.Date fechaSQL2 = new java.sql.Date(fecha2.getTime());
                      
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso", "root","");
                      String sql = "SELECT * FROM error_log WHERE DATE(Fecha) BETWEEN ? AND ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL1);
@@ -375,7 +386,7 @@ public class controlador implements ActionListener {
                       java.util.Date fecha2 = view2.txtfech3.getDate();
                      java.sql.Date fechaSQL2 = new java.sql.Date(fecha2.getTime());
                      
-                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso", "jhaseft","1234");
+                     Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso", "root","");
                     String sql = "SELECT * FROM ftp WHERE DATE(Fecha) BETWEEN ? AND ?";
                     PreparedStatement pst = (PreparedStatement) con.prepareStatement(sql);
                     pst.setDate(1, fechaSQL1);
@@ -398,6 +409,198 @@ public class controlador implements ActionListener {
              }
        
        }
+       
+       //Filtrar Datos
+       
+       
+       if(e.getSource()==view3.fallas){
+           
+           try {
+                    if(model.getRuta().contains("access_log")){
+                    List<Parametrosapache_acceslog>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from acces_log where Estado = '500'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametrosapache_acceslog p=new Parametrosapache_acceslog(rs.getString(1),rs.getString(2), rs.getTimestamp(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatosacces(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                    }
+                    
+                    if(model.getRuta().contains("error_log")){
+                    List<Parametros_errorlog>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from error_log where Comando = 'autoindex:error' or Comando = 'php:error'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametros_errorlog p=new Parametros_errorlog(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatoserror(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                    }
+                    
+                     if(model.getRuta().contains("vsftpd")){ 
+                     List<Parametros_vsftpd>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from ftp where Comando = 'FAIL CONNECT'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametros_vsftpd p=new Parametros_vsftpd(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatosvsftpd(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                     
+                     }
+                    
+                    
+                    
+                    
+             
+       } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Error "+ex.getMessage());
+       }
+           
+       }
+       
+       
+       if(e.getSource()==view3.Errores){
+           
+           try {
+                    if(model.getRuta().contains("access_log")){
+                    List<Parametrosapache_acceslog>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from acces_log where Estado = '403' or Estado = ''404");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametrosapache_acceslog p=new Parametrosapache_acceslog(rs.getString(1),rs.getString(2), rs.getTimestamp(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatosacces(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                    }
+                    
+                    if(model.getRuta().contains("error_log")){
+                    List<Parametros_errorlog>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from error_log where Comando = 'authz_core:error'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametros_errorlog p=new Parametros_errorlog(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatoserror(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                    }
+                    
+                     if(model.getRuta().contains("vsftpd")){ 
+                     List<Parametros_vsftpd>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from ftp where Comando = 'FAIL DOWNLOAD'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametros_vsftpd p=new Parametros_vsftpd(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatosvsftpd(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                     
+                     }
+                    
+                    
+                    
+                    
+             
+       } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Error "+ex.getMessage());
+       }
+           
+       }
+       
+       
+       if(e.getSource()==view3.accesos){
+           
+           try {
+                    if(model.getRuta().contains("access_log")){
+                    List<Parametrosapache_acceslog>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from acces_log where Estado = '403' or Estado = '401'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametrosapache_acceslog p=new Parametrosapache_acceslog(rs.getString(1),rs.getString(2), rs.getTimestamp(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatosacces(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                    }
+                    
+                    if(model.getRuta().contains("error_log")){
+                    List<Parametros_errorlog>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from error_log where Comando = 'authz_basic:error'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametros_errorlog p=new Parametros_errorlog(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatoserror(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                    }
+                    
+                     if(model.getRuta().contains("vsftpd")){ 
+                     List<Parametros_vsftpd>lista1=new ArrayList<>();
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
+                      PreparedStatement pst=(PreparedStatement) con.prepareStatement("select * from ftp where Comando = 'FAIL LOGIN'");
+                      ResultSet rs=pst.executeQuery();
+                      while(rs.next()) {
+                        Parametros_vsftpd p=new Parametros_vsftpd(rs.getTimestamp(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getString(6));
+                        lista1.add(p);
+                        }
+                        JOptionPane.showMessageDialog(null,"Exportando datos");
+                        DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
+                        modelo.setRowCount(0);
+                        meterdatosvsftpd(lista1, modelo);
+                        JOptionPane.showMessageDialog(null,"Datos exportados con exito");
+                     
+                     }
+                    
+                    
+                    
+                    
+             
+       } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Error "+ex.getMessage());
+       }
+           
+       }
+       
        
        if(e.getSource()==view2.combox){
         String res=view2.combox.getSelectedItem().toString();
@@ -437,7 +640,7 @@ public class controlador implements ActionListener {
    private void buscarftp(String buscar){
        try {
                     List<Parametros_vsftpd>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM ftp WHERE " +
     "Fecha LIKE '%" + buscar + "%' OR " +
     "Pid LIKE '%" + buscar + "%' OR " +
@@ -464,7 +667,7 @@ public class controlador implements ActionListener {
    private void buscarerror(String buscar){
        try {
                     List<Parametros_errorlog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM error_log WHERE " +
     "Fecha LIKE '%" + buscar + "%' OR " +
     "Codigo LIKE '%" + buscar + "%' OR " +
@@ -489,7 +692,7 @@ public class controlador implements ActionListener {
    private void buscaracces(String buscar){
        try {
                     List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM acces_log WHERE " +
     "IP LIKE '%" + buscar + "%' OR " +
     "Cuenta LIKE '%" + buscar + "%' OR " +
@@ -523,7 +726,7 @@ public class controlador implements ActionListener {
    private void buscarftpand(String buscar1,String buscar2,String Operando){
        try {
                     List<Parametros_vsftpd>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM ftp WHERE " +
     "(" +
         "Fecha LIKE '%" + buscar1 + "%' OR " +
@@ -559,7 +762,7 @@ public class controlador implements ActionListener {
    private void buscarerrorand(String buscar1,String buscar2,String Operando){
        try {
                     List<Parametros_errorlog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM error_log WHERE " +
     "(" +
         "Fecha LIKE '%"+buscar1+"%' OR " +
@@ -592,7 +795,7 @@ public class controlador implements ActionListener {
    private void buscaraccesand(String buscar1,String buscar2,String Operando){
        try {
                     List<Parametrosapache_acceslog>lista1=new ArrayList<>();
-                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+                     Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
                       PreparedStatement pst=(PreparedStatement) con.prepareStatement("SELECT * FROM acces_log WHERE " +
     "(" +
         "IP LIKE '%" + buscar1 + "%' OR " +
@@ -641,7 +844,7 @@ public class controlador implements ActionListener {
    ////////////////////////////////////////////////////////METER DATOS ALA BD/////////////////////////////////////////////////////
    private void meterdatosBDacces(List<Parametrosapache_acceslog>lista1){
        try {
-            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
             JOptionPane.showMessageDialog(null,"Conectanto con la base de datos");
              for(int i=0;i<lista1.size();i++){
              PreparedStatement pst=(PreparedStatement) con.prepareStatement("INSERT IGNORE INTO acces_log VALUES(?,?,?,?,?,?,?,?,?,?,?)");
@@ -667,7 +870,7 @@ public class controlador implements ActionListener {
    
     private void meterdatosBDerror(List<Parametros_errorlog>lista1){
        try {
-            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
             JOptionPane.showMessageDialog(null,"Conectanto con la base de datos");
             
              for(int i=0;i<lista1.size();i++){
@@ -689,7 +892,7 @@ public class controlador implements ActionListener {
         
    private void meterdatosBDftp(List<Parametros_vsftpd>lista1){
        try {
-            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost/aso","jhaseft","1234");
+            Connection   con=(Connection) DriverManager.getConnection("jdbc:mysql://localhost:33061/aso","root","");
             JOptionPane.showMessageDialog(null,"Conectanto con la base de datos");
             
              for(int i=0;i<lista1.size();i++){
@@ -759,6 +962,8 @@ public class controlador implements ActionListener {
     
    
    
+    
+    
 
 }                         
                             
