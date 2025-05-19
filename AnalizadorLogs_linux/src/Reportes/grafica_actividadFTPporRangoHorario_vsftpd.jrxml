@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_actividadFTPporRangoHorario_vsftpd" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="3a5167bd-0e3b-4ac0-b442-5fd39c2a3000">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+  CONCAT(
+    DATE_FORMAT(Fecha, '%h:00 %p'),
+    ' - ',
+    DATE_FORMAT(DATE_ADD(Fecha, INTERVAL 1 HOUR), '%h:00 %p')
+  ) AS RangoHora,
+  COUNT(*) AS TotalEventos
+FROM ftp
+GROUP BY HOUR(Fecha)
+ORDER BY HOUR(Fecha);]]>
+	</queryString>
+	<field name="RangoHora" class="java.lang.String"/>
+	<field name="TotalEventos" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="5b03a831-c81a-4bbc-88f0-713a37fd53bd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTIVIDAD FTP POR HORA DEL DIA.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="232" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="228" uuid="fc76bc6e-3ac0-4fb2-9e9e-6e92834dda40"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{RangoHora}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{RangoHora}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{TotalEventos}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="true" isShowTickMarks="true">
+					<plot labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#28C39C"/>
+						<seriesColor seriesOrder="1" color="#E54F14"/>
+						<seriesColor seriesOrder="2" color="#3207AB"/>
+						<seriesColor seriesOrder="3" color="#E69061"/>
+						<seriesColor seriesOrder="4" color="#FE2096"/>
+						<seriesColor seriesOrder="5" color="#7E8BCC"/>
+						<seriesColor seriesOrder="6" color="#E8984C"/>
+						<seriesColor seriesOrder="7" color="#A15FE6"/>
+						<seriesColor seriesOrder="8" color="#AE03CD"/>
+						<seriesColor seriesOrder="9" color="#22C273"/>
+						<seriesColor seriesOrder="10" color="#68E314"/>
+						<seriesColor seriesOrder="11" color="#DACCE1"/>
+						<seriesColor seriesOrder="12" color="#3E9A4F"/>
+						<seriesColor seriesOrder="13" color="#D5EE30"/>
+						<seriesColor seriesOrder="14" color="#54F5BF"/>
+						<seriesColor seriesOrder="15" color="#945524"/>
+						<seriesColor seriesOrder="16" color="#2F9166"/>
+					</plot>
+					<itemLabel color="#333333">
+						<font fontName="Arial" isBold="true" isItalic="true"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["HORARIO"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat labelRotation="45.0">
+						<axisFormat>
+							<labelFont>
+								<font fontName="Arial" isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["EVENTOS"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

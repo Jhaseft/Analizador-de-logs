@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_erroresAcumuladosPorFecha_errorLog" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="713f15b8-3fe2-4644-9401-81cee40c48c0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="182"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tabla_erroresAcumuladosPorFecha" uuid="ccb5b55f-6cee-49e0-a747-50269ecf9552">
+		<queryString language="SQL">
+			<![CDATA[-- Errores acumulados por fecha desde la tabla error_log
+SELECT
+    DATE_FORMAT(D.Fecha, '%Y-%m-%d') AS Fecha,        -- Día en formato YYYY-MM-DD
+    D.TotalErrores AS ErroresDelDia,                  -- Total de errores ese día
+    SUM(D.TotalErrores) OVER (ORDER BY DATE(D.Fecha)) AS ErroresAcumulados -- Acumulado hasta esa fecha
+FROM (
+    SELECT
+        DATE(Fecha) AS Fecha,
+        COUNT(*) AS TotalErrores
+    FROM error_log
+    GROUP BY DATE(Fecha)
+) AS D
+ORDER BY Fecha ASC;]]>
+		</queryString>
+		<field name="Fecha" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ErroresDelDia" class="java.lang.Long"/>
+		<field name="ErroresAcumulados" class="java.math.BigDecimal"/>
+	</subDataset>
+	<queryString>
+		<![CDATA[-- Errores acumulados por fecha desde la tabla error_log
+SELECT
+    DATE_FORMAT(D.Fecha, '%Y-%m-%d') AS Fecha,        -- Día en formato YYYY-MM-DD
+    D.TotalErrores AS ErroresDelDia,                  -- Total de errores ese día
+    SUM(D.TotalErrores) OVER (ORDER BY DATE(D.Fecha)) AS ErroresAcumulados -- Acumulado hasta esa fecha
+FROM (
+    SELECT
+        DATE(Fecha) AS Fecha,
+        COUNT(*) AS TotalErrores
+    FROM error_log
+    GROUP BY DATE(Fecha)
+) AS D
+ORDER BY Fecha ASC;]]>
+	</queryString>
+	<field name="Fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ErroresDelDia" class="java.lang.Long"/>
+	<field name="ErroresAcumulados" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="9d6c7c17-8f96-4c19-9b86-669209b6cabd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ERRORES ACUMULADOS POR FECHA.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="450" splitType="Stretch">
+			<lineChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="309" uuid="7248a523-c0eb-4b4c-af80-39a30c499e85"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Dummy Series"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Fecha}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{ErroresAcumulados}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot isShowLines="true" isShowShapes="true">
+					<plot labelRotation="50.0">
+						<seriesColor seriesOrder="0" color="#0000CC"/>
+					</plot>
+					<categoryAxisLabelExpression><![CDATA["FECHA"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat labelRotation="50.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" isBold="true" isItalic="true"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["ERRORES ACUMULADOS"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
+							</labelFont>
+							<tickLabelFont>
+								<font fontName="Arial" isBold="true" isItalic="true"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<componentElement>
+				<reportElement key="table" style="table" x="122" y="323" width="374" height="126" uuid="8471ea87-89ed-40bd-a1fd-fc8c5df7bad5"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabla_erroresAcumuladosPorFecha" uuid="a5b7b2df-7f38-4dc0-9eb9-46371b602af9">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="91" uuid="9f8d0235-572d-4257-a644-be0cf1b373ce">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="1" y="0" width="90" height="30" uuid="33d3e9bf-a688-4b36-8119-f0db35ca3e27"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="1" y="0" width="90" height="20" uuid="45ae3e9b-d867-4187-a5be-73efbbdd08a1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Fecha}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="101" uuid="2740beec-f0eb-4b46-8f9b-b6802bc23942">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="101" height="30" uuid="e8be22ec-3d71-4f32-80fa-89af6fc0ecf8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ERRORES DEL DIA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="101" height="20" uuid="0c970e5a-aa2b-4057-95a3-ef7d8838dc26"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ErroresDelDia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="119" uuid="df2dc079-519e-463e-84e5-d7af4742302b">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="119" height="30" uuid="37a23d42-f69c-4586-b9a2-d8f55ad5a7a3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ERRORES ACUMULADOS]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="119" height="20" uuid="41a59f9a-19bd-4ddb-a8af-4c408ed1a952"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ErroresAcumulados}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

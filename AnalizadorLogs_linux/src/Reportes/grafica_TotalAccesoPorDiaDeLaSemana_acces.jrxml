@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_TotalAccesoPorDiaDeLaSemana_acces" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1f7f946c-8a17-401f-884e-19040b6c2a35">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+  CASE DAYOFWEEK(Fecha)
+    WHEN 1 THEN 'Domingo'
+    WHEN 2 THEN 'Lunes'
+    WHEN 3 THEN 'Martes'
+    WHEN 4 THEN 'Miércoles'
+    WHEN 5 THEN 'Jueves'
+    WHEN 6 THEN 'Viernes'
+    WHEN 7 THEN 'Sábado'
+  END AS DiaSemana,
+  COUNT(*) AS Total
+FROM acces_log
+GROUP BY DiaSemana
+ORDER BY FIELD(DiaSemana, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo');]]>
+	</queryString>
+	<field name="DiaSemana" class="java.lang.String"/>
+	<field name="Total" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="285" height="20" uuid="75cf52d6-1add-4146-a434-6f2041098ef0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE ACCESOS POR DIA DE LA SEMANA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="224" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="194" uuid="f7f45c50-68c3-45f6-888e-7ca6026bb0c4"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{DiaSemana}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{DiaSemana}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#7A9DE7"/>
+						<seriesColor seriesOrder="1" color="#013DB5"/>
+						<seriesColor seriesOrder="2" color="#B95EA8"/>
+						<seriesColor seriesOrder="3" color="#D4CE7A"/>
+						<seriesColor seriesOrder="4" color="#B59791"/>
+						<seriesColor seriesOrder="5" color="#55919F"/>
+						<seriesColor seriesOrder="6" color="#AFF59F"/>
+					</plot>
+					<itemLabel color="#33FFFF" backgroundColor="#FFFFFF">
+						<font fontName="Arial" size="10" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["DIA"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["TOTAL ACCESOS"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

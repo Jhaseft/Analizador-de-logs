@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE_ERRORLOG" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6bf38cf-261c-4fac-af37-3747b628efe3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tabla_Top10ComandosConMasErrores_errorLog" uuid="2b40df6d-87a2-4950-9d7a-a85e6ac01755">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS Nro,
+    Comando,
+    COUNT(*) AS Total
+FROM error_log
+GROUP BY Comando
+ORDER BY Total DESC
+LIMIT 10;]]>
+		</queryString>
+		<field name="Nro" class="java.lang.Long"/>
+		<field name="Comando" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Total" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Usuario\\Documents\\TSO y ASO\\ANALIZADOR DE LOGS\\Analizador-de-logs\\Desktop\\AnalizadorLogs\\src\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+  -- Total de errores
+  (SELECT COUNT(*) FROM error_log) AS total_errores,
+
+  -- Código de error más común
+  (SELECT Codigo FROM error_log GROUP BY Codigo ORDER BY COUNT(*) DESC LIMIT 1) AS codigo_mas_comun,
+  (SELECT COUNT(*) FROM error_log WHERE Codigo =
+      (SELECT Codigo FROM error_log GROUP BY Codigo ORDER BY COUNT(*) DESC LIMIT 1)) AS total_codigo_mas_comun,
+
+  -- Comando más frecuente
+  (SELECT Comando FROM error_log GROUP BY Comando ORDER BY COUNT(*) DESC LIMIT 1) AS comando_mas_comun,
+  (SELECT COUNT(*) FROM error_log WHERE Comando =
+      (SELECT Comando FROM error_log GROUP BY Comando ORDER BY COUNT(*) DESC LIMIT 1)) AS total_comando_mas_comun,
+
+  -- Mensaje de error más largo (por longitud del texto)
+  (SELECT Mensaje FROM error_log ORDER BY LENGTH(Mensaje) DESC LIMIT 1) AS mensaje_mas_largo,
+
+  -- Mensaje más corto
+  (SELECT Mensaje FROM error_log ORDER BY LENGTH(Mensaje) ASC LIMIT 1) AS mensaje_mas_corto,
+
+  -- PID más común
+  (SELECT Pid FROM error_log GROUP BY Pid ORDER BY COUNT(*) DESC LIMIT 1) AS pid_mas_comun,
+  (SELECT COUNT(*) FROM error_log WHERE Pid =
+      (SELECT Pid FROM error_log GROUP BY Pid ORDER BY COUNT(*) DESC LIMIT 1)) AS total_pid_mas_comun
+;]]>
+	</queryString>
+	<field name="total_errores" class="java.lang.Long"/>
+	<field name="codigo_mas_comun" class="java.lang.String"/>
+	<field name="total_codigo_mas_comun" class="java.lang.Long"/>
+	<field name="comando_mas_comun" class="java.lang.String"/>
+	<field name="total_comando_mas_comun" class="java.lang.Long"/>
+	<field name="mensaje_mas_largo" class="java.lang.String"/>
+	<field name="mensaje_mas_corto" class="java.lang.String"/>
+	<field name="pid_mas_comun" class="java.lang.String"/>
+	<field name="total_pid_mas_comun" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="138" y="20" width="246" height="20" uuid="c4ecb75d-78f5-4072-8b60-0b478dcd8291"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ACTIVIDAD ERROR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="451" y="0" width="79" height="20" uuid="bb2ece7a-4414-4991-be73-87c446eaa5f0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="530" y="0" width="42" height="20" uuid="c75820a2-52ac-4559-a6d7-e8a1097c239b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="0" y="0" width="451" height="20" uuid="662af0ce-0503-4b77-96ea-f42108f9dd3d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["generado el: "+new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="608" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="256" width="572" height="248" uuid="cc59be88-afe9-4fc1-bf6c-5fcb4182900d"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_erroresPorDia_errorLog.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="b325c39c-3792-4863-8211-ef2e624792a8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESUMEN DE ACTIVIDAD DE ERRORES DEL SISTEMA.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="181" width="158" height="20" uuid="91b265db-ae67-41e5-93fd-e7685b6f6d22"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total errores:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="181" width="414" height="20" uuid="cd552211-12af-4453-a872-b0739a30e817"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_errores}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="158" height="20" uuid="2bd7457b-2988-4ef3-9824-21bf0020dc06"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Codigo mas comun:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="20" width="414" height="20" uuid="b911f934-77d7-4b33-9506-eaed69863d4f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_mas_comun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="158" height="20" uuid="42458282-7b50-4a0b-8d27-5505f6c30eca"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total codigo mas comun:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="40" width="414" height="20" uuid="abd1414b-c94c-4483-aa6b-af8a94c69595"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_codigo_mas_comun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="71" width="158" height="20" uuid="bfd412a6-b1fb-4429-b2d1-3af880dd44e2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Comando mas comun:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="71" width="414" height="20" uuid="a87a0842-29a4-4c1b-9443-b5d73faf52cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comando_mas_comun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="91" width="158" height="20" uuid="77bac1de-5afd-4c70-9d3d-a85280b4d011"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total comando mas comun:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="91" width="414" height="20" uuid="6b836384-f3c5-4aba-8dfa-d921482b476c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_comando_mas_comun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="126" width="158" height="20" uuid="70fac2de-8f4c-45ab-8722-4db3d3834e99"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Pid mas comun:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="126" width="414" height="20" uuid="34bac29d-8305-4cfb-ae36-068c73da06f1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pid_mas_comun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="146" width="158" height="20" uuid="c1fe82d4-680a-4d70-b753-72de0a3241e7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total Pid mas comun:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="158" y="146" width="414" height="20" uuid="4f6f0984-0e74-469c-8d4d-4d673b689fdc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_pid_mas_comun}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="158" y="530" width="268" height="78" uuid="085ef744-c9ee-49f8-a79c-37b334a082b9">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabla_Top10ComandosConMasErrores_errorLog" uuid="c463664d-4500-4da4-ae72-06c6df18b64f">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="47" uuid="f4e17ab4-1fd4-4048-8a95-1e259e44d81c">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="47" height="30" uuid="8b2557e7-24ec-4bb1-9fe2-669f197e58a0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nro]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="47" height="20" uuid="d318a3ed-c55f-47f3-80e4-7d6a888e4683"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Nro}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="220" uuid="79ee49b8-5765-476a-ab6e-592e9bcd05f7">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="220" height="30" uuid="fbc3ba91-315e-4e10-a04c-9cf2755572f1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[COMANDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="220" height="20" uuid="51bd860d-d48a-4fac-86c6-f8a8c98f9d85"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Comando}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="59" uuid="b11893af-051f-4272-9430-6f79b0e9aa53">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="59" height="30" uuid="1ed11842-7406-4ee7-8d40-c797eb67e9fb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="59" height="20" uuid="b109832e-f5ab-4f45-bb31-2ab47ef19f6e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="504" width="268" height="26" uuid="10b4d174-c2b6-4c51-91b4-93459acfbddf"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOP 10 COMANDOS CON MAS ERRORES.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="715" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="562" height="327" uuid="48ade1b2-a7c5-4711-9a98-adb91f178c55"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafico_totalErroresPorHoraDia_errorLog.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="344" width="562" height="351" uuid="c5a1cb59-720b-4d43-ab86-6ea57772f56f"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_PorcentajeErroresPorCodigo_errorLog.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="695" width="572" height="20" uuid="4ea6da7c-b960-4a21-a3dd-e0bcf90469a6"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_erroresAcumuladosPorFecha_errorLog.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

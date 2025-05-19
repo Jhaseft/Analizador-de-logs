@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_comparacionPorDia_general" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="116110b7-9ed7-4179-98eb-70f0157c2fa8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="6"/>
+	<queryString>
+		<![CDATA[SELECT DATE(Fecha) AS dia, 'Accesos' AS tipo, COUNT(*) AS total FROM acces_log GROUP BY dia
+UNION ALL
+SELECT DATE(Fecha) AS dia, 'Errores' AS tipo, COUNT(*) AS total FROM error_log GROUP BY dia
+UNION ALL
+SELECT DATE(Fecha) AS dia, 'FTP' AS tipo, COUNT(*) AS total FROM ftp GROUP BY dia
+ORDER BY dia;
+]]>
+	</queryString>
+	<field name="dia" class="java.sql.Date"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="14d5938f-d832-4074-8473-bc37cc97b2ab"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPARACION DE ACCESOS POR DIA.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="297" splitType="Stretch">
+			<stackedBar3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="276" uuid="a0a58c84-294e-4067-91b8-fc7f39e296c7"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tipo}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{dia}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot labelRotation="45.0"/>
+					<itemLabel color="#000000">
+						<font fontName="Arial" isBold="true" isItalic="true"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["FECHA"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat labelRotation="45.0">
+						<axisFormat>
+							<labelFont>
+								<font fontName="Arial" isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["TOTAL"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont>
+								<font fontName="Arial" isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</stackedBar3DChart>
+		</band>
+	</summary>
+</jasperReport>

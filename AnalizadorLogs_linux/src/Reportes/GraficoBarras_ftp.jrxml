@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GraficoBarras_ftp" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c305cffc-7afe-4f82-ba03-2be439522c0e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT Usuario, COUNT(*) AS total_actividad
+FROM ftp
+GROUP BY Usuario
+ORDER BY total_actividad DESC
+LIMIT 10;]]>
+	</queryString>
+	<field name="Usuario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_actividad" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="239" height="20" uuid="d2c64a51-1171-4457-95c1-6b70445e9e6a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CANTIDAD DE ACTIVIDAD DE USUARIOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="197" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="197" uuid="75fe2ddd-20bb-4e53-8932-3c3382a0a804"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Usuario}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Usuario}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total_actividad}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#D61390"/>
+						<seriesColor seriesOrder="1" color="#3300FF"/>
+						<seriesColor seriesOrder="2" color="#1FCC3C"/>
+						<seriesColor seriesOrder="3" color="#BC13B3"/>
+						<seriesColor seriesOrder="4" color="#A82554"/>
+						<seriesColor seriesOrder="5" color="#054D77"/>
+						<seriesColor seriesOrder="6" color="#ECAED6"/>
+						<seriesColor seriesOrder="7" color="#C14B60"/>
+						<seriesColor seriesOrder="8" color="#1FC9DE"/>
+						<seriesColor seriesOrder="9" color="#FA206F"/>
+						<seriesColor seriesOrder="10" color="#286479"/>
+						<seriesColor seriesOrder="11" color="#BBCF84"/>
+						<seriesColor seriesOrder="12" color="#CD6A32"/>
+						<seriesColor seriesOrder="13" color="#F33DF3"/>
+						<seriesColor seriesOrder="14" color="#E7C159"/>
+						<seriesColor seriesOrder="15" color="#BE604F"/>
+					</plot>
+					<itemLabel color="#00CCFF" backgroundColor="#FFFFFF">
+						<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["USUARIOS"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat verticalTickLabels="true"/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["CANT ACTIVIDAD"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

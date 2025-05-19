@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE_ACCESLOG" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="372f4503-284c-4d64-bb6c-5e2bdf915fc2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="719"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="Tabla_rutasMasAccedidas_accesLog" uuid="b4469720-466e-4ef9-9a09-8aaf2ec26dac">
+		<queryString>
+			<![CDATA[SELECT
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS Nro,
+    Ruta AS Pagina_Accedida,
+    COUNT(*) AS Total_Accesos
+FROM
+    acces_log
+GROUP BY
+    Ruta
+ORDER BY
+    Total_Accesos DESC
+LIMIT 10;]]>
+		</queryString>
+		<field name="Nro" class="java.lang.Long"/>
+		<field name="Pagina_Accedida" class="java.lang.String"/>
+		<field name="Total_Accesos" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Usuario\\Documents\\TSO y ASO\\ANALIZADOR DE LOGS\\Analizador-de-logs\\Desktop\\AnalizadorLogs\\src\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    -- Punto 2: Total de accesos
+    (SELECT COUNT(*) FROM acces_log) AS total_accesos,
+
+    -- Punto 3: IP con más actividad
+    (SELECT IP
+     FROM acces_log
+     GROUP BY IP
+     ORDER BY COUNT(*) DESC
+     LIMIT 1) AS ip_mas_activa,
+
+    (SELECT COUNT(*)
+     FROM acces_log
+     WHERE IP = (
+         SELECT IP
+         FROM acces_log
+         GROUP BY IP
+         ORDER BY COUNT(*) DESC
+         LIMIT 1)
+    ) AS total_ip_mas_activa,
+
+    -- Punto 4: Usuario con más accesos
+    (SELECT Cuenta
+     FROM acces_log
+     GROUP BY Cuenta
+     ORDER BY COUNT(*) DESC
+     LIMIT 1) AS usuario_mas_activo,
+
+    (SELECT COUNT(*)
+     FROM acces_log
+     WHERE Cuenta = (
+         SELECT Cuenta
+         FROM acces_log
+         GROUP BY Cuenta
+         ORDER BY COUNT(*) DESC
+         LIMIT 1)
+    ) AS total_usuario_mas_activo,
+
+    -- Punto 5: Método HTTP más usado
+    (SELECT Metodo
+     FROM acces_log
+     GROUP BY Metodo
+     ORDER BY COUNT(*) DESC
+     LIMIT 1) AS metodo_mas_usado,
+
+    -- Punto 6: Código de estado más común
+    (SELECT Estado
+     FROM acces_log
+     GROUP BY Estado
+     ORDER BY COUNT(*) DESC
+     LIMIT 1) AS estado_mas_comun,
+
+    -- Punto 7: Navegador más usado
+    (SELECT `Navegador`
+     FROM acces_log
+     GROUP BY `Navegador`
+     ORDER BY COUNT(*) DESC
+     LIMIT 1) AS navegador_mas_usado,
+
+    -- Punto 8: Sistema operativo más usado
+    (SELECT `Sistema Operativo`
+     FROM acces_log
+     GROUP BY `Sistema Operativo`
+     ORDER BY COUNT(*) DESC
+     LIMIT 1) AS so_mas_usado]]>
+	</queryString>
+	<field name="total_accesos" class="java.lang.Long"/>
+	<field name="ip_mas_activa" class="java.lang.String"/>
+	<field name="total_ip_mas_activa" class="java.lang.Long"/>
+	<field name="usuario_mas_activo" class="java.lang.String"/>
+	<field name="total_usuario_mas_activo" class="java.lang.Long"/>
+	<field name="metodo_mas_usado" class="java.lang.String"/>
+	<field name="estado_mas_comun" class="java.lang.String"/>
+	<field name="navegador_mas_usado" class="java.lang.String"/>
+	<field name="so_mas_usado" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="441" y="0" width="76" height="20" uuid="6676d462-69b1-4bc7-8a04-c02e802d1858"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="153" y="20" width="277" height="20" uuid="f7909530-9812-4f48-9821-6c32d7e6623c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Rounded MT Bold" size="14" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ACTIVIDAD ACCESLOG]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="517" y="0" width="56" height="20" uuid="fefee473-4e45-4d0d-bb17-ab61a6f4995f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="23" y="0" width="173" height="20" uuid="0d6ed920-0a60-459b-9219-bab364e46a07"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["generado el: "+new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="596" splitType="Stretch">
+			<textField>
+				<reportElement x="224" y="33" width="156" height="20" uuid="37df2243-992c-4ba7-9694-6e59791110a0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_accesos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="53" width="156" height="20" uuid="f51ebce8-7a10-4e9c-b621-d49ee29e95c5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ip_mas_activa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="73" width="175" height="20" uuid="f13ac299-f012-4559-a40f-9946664af2ab"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_ip_mas_activa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="93" width="175" height="20" uuid="64f71eef-f978-4e18-956f-93b9273d133a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario_mas_activo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="113" width="206" height="20" uuid="b557669c-83d5-4070-a593-6a0ce4c017fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_usuario_mas_activo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="133" width="182" height="20" uuid="ffce82d7-4b80-4cc4-9f43-1dbc2e733f35"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{metodo_mas_usado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="153" width="190" height="20" uuid="3dc1cfd8-efb9-4462-b5cc-0fefa414a80b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado_mas_comun}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="173" width="190" height="20" uuid="36dfbd4f-bc87-4595-b2d8-b43169367cbc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{navegador_mas_usado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="193" width="190" height="20" uuid="76e4ea9f-4e94-4d8d-9a58-e5f5e906c55f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{so_mas_usado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="0" width="472" height="20" uuid="f61e01ef-6c42-49ea-b009-830a0c0a21ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESUMEN DE ACTIVIDAD DE ACCES0S.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="33" width="201" height="20" uuid="c755207d-fc9c-415d-bb4f-7176da01bee4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total accesos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="53" width="201" height="20" uuid="daf4038a-8d97-464b-a908-9d806bd57901"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Ip mas activa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="73" width="201" height="20" uuid="dded78e4-e6c3-4c57-b04d-a2728167953f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total IP mas activa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="93" width="201" height="20" uuid="6a7aaf96-bd34-4444-bdde-79cca2a8070a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Usuario mas activo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="113" width="201" height="20" uuid="67d656b3-32e0-4ff2-935d-033f67646191"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total usuario mas activo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="133" width="201" height="20" uuid="a16d656b-0211-41da-b544-9e4d8558803d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Metodo mas usado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="153" width="201" height="20" uuid="d7170468-2a92-4843-8b00-816922b7f4af"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Estado mas comun:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="173" width="201" height="20" uuid="1e2673fa-a16e-4609-8024-026d1623ec49"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Navegador mas usado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="193" width="201" height="20" uuid="3b2838a7-6aee-441e-b802-4f57b2c6ec4d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[sistema operativo mas usado:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="1" y="223" width="571" height="181" uuid="b11b7fe1-91ff-45ec-9ed0-02349ad324c2"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafico_accesLog.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="1" y="404" width="572" height="192" uuid="c64fcc4d-aab2-43e0-94be-d1c70165057e"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_TotalAccesoPorDiaDeLaSemana_acces.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="584">
+			<subreport>
+				<reportElement x="1" y="0" width="571" height="440" uuid="b1b3e3c2-88b9-47eb-bcb9-a32401373c10"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pastel_comparacionAccesosPorSO_general.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="2" y="455" width="571" height="128" uuid="7d7f0430-129e-457d-bf2b-4b3e76bd2f1f"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Grafica_promedioAccesosPorHora_accesLog.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="494" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="22" y="344" width="547" height="100" uuid="eb29a4cd-5ac1-403e-961b-95cc0eb51a59"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Tabla_rutasMasAccedidas_accesLog" uuid="16446279-22c8-4aba-9f9f-8cbd8c920c04">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50" uuid="d7aac57c-7383-42c8-b967-e9eb7c344e25">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="45a490ce-e9c4-4a95-a025-34f5e5345a0e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Nro]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 4_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="3aa721da-73f2-43ba-8292-6ed6d890e6b8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Nro}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="350" uuid="3d1f7a8b-7571-4748-9a45-d8af13fcb236">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="350" height="30" uuid="df53ebea-d4d2-4746-a6a0-e37aceaf6e5f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PAGINA ACCEDIDA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 4_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="350" height="20" uuid="984e8411-ad7f-44e5-826b-170ed107f184"/>
+								<textElement verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Pagina_Accedida}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="45b88465-85eb-4c8d-8381-82d1af64ad41">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="30" uuid="0f93413e-c13b-435b-8118-8c8ab8d660f6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL ACCESO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 4_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="130" height="20" uuid="2b355e7b-c010-4732-aea5-f3cbc6e40ebe"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Total_Accesos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="22" y="308" width="235" height="36" uuid="7e880158-70a2-4899-997b-5f258c6b1532"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TABLA DE RUTAS MAS ACCEDIDAS]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="1" y="0" width="569" height="308" uuid="847a9444-a96e-49a9-b71c-35594ecf2659"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pastel_distribucionTiposEstadoHTTP_accesLog.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

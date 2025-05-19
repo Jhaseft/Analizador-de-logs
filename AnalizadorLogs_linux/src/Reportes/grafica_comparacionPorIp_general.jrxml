@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_comparacionPorIp_general" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6504df25-3178-469d-8bc8-93dc4d80acac">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="55"/>
+	<queryString>
+		<![CDATA[SELECT IP AS ip, 'Accesos' AS tipo, COUNT(*) AS total
+FROM acces_log
+GROUP BY IP
+UNION ALL
+SELECT Ip AS ip, 'FTP' AS tipo, COUNT(*) AS total
+FROM ftp
+GROUP BY Ip
+ORDER BY ip;
+]]>
+	</queryString>
+	<field name="ip" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="total" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="9e07e93e-f703-4a58-b350-dc7f93a0b951"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPARACION POR IP (COMUN ENTRE ACCES_LOG Y FTP).]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="349" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="349" uuid="c1f1a7b0-1d3c-4142-840c-2372d59871e1"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{tipo}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{ip}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true" xOffset="10.0">
+					<plot orientation="Horizontal" labelRotation="0.0"/>
+					<itemLabel color="#66FF00">
+						<font fontName="Arial" isBold="true" isItalic="true"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["IP"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["TOTAL ACCESO"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafico_accesLog" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0a29a5c7-cba2-433a-ac54-22e2e7087100">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT DATE(Fecha) AS dia, COUNT(*) AS total
+FROM acces_log
+GROUP BY dia
+ORDER BY dia;]]>
+	</queryString>
+	<field name="dia" class="java.sql.Date"/>
+	<field name="total" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20">
+			<staticText>
+				<reportElement x="20" y="0" width="224" height="20" uuid="af352760-0221-4023-878d-93037429371e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DE ACTIVIDADES POR FECHA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="156" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement mode="Transparent" x="0" y="0" width="572" height="156" uuid="08307649-106f-4f14-aceb-0f7838e52b7e"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{dia}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{dia}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickMarks="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#FF3333"/>
+						<seriesColor seriesOrder="1" color="#761B9D"/>
+						<seriesColor seriesOrder="2" color="#BF4481"/>
+						<seriesColor seriesOrder="3" color="#4A656D"/>
+						<seriesColor seriesOrder="4" color="#6395C2"/>
+						<seriesColor seriesOrder="5" color="#C08482"/>
+						<seriesColor seriesOrder="6" color="#0328BD"/>
+						<seriesColor seriesOrder="7" color="#E1351F"/>
+						<seriesColor seriesOrder="8" color="#61FDCA"/>
+						<seriesColor seriesOrder="9" color="#9A2C56"/>
+						<seriesColor seriesOrder="10" color="#481254"/>
+						<seriesColor seriesOrder="11" color="#D883DE"/>
+						<seriesColor seriesOrder="12" color="#3A402F"/>
+						<seriesColor seriesOrder="13" color="#B7CBEF"/>
+						<seriesColor seriesOrder="14" color="#C515B2"/>
+						<seriesColor seriesOrder="15" color="#B57566"/>
+						<seriesColor seriesOrder="16" color="#E2E8F5"/>
+						<seriesColor seriesOrder="17" color="#AA6B08"/>
+						<seriesColor seriesOrder="18" color="#ED86CE"/>
+						<seriesColor seriesOrder="19" color="#B6C655"/>
+						<seriesColor seriesOrder="20" color="#8507AD"/>
+					</plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA["FECHA"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["CANT ACTIVIDAD"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont>
+								<font fontName="SansSerif"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_erroresPorDia_errorLog" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2bfb95bd-54d0-41e7-b748-2781a283c599">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+    DATE(Fecha) AS Fecha,
+    CASE DAYNAME(Fecha)
+        WHEN 'Monday' THEN 'Lunes'
+        WHEN 'Tuesday' THEN 'Martes'
+        WHEN 'Wednesday' THEN 'Miércoles'
+        WHEN 'Thursday' THEN 'Jueves'
+        WHEN 'Friday' THEN 'Viernes'
+        WHEN 'Saturday' THEN 'Sábado'
+        WHEN 'Sunday' THEN 'Domingo'
+    END AS DiaSemana,
+    COUNT(*) AS TotalErrores
+FROM error_log
+GROUP BY Fecha, DiaSemana
+ORDER BY FIELD(DiaSemana, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo');]]>
+	</queryString>
+	<field name="Fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DiaSemana" class="java.lang.String"/>
+	<field name="TotalErrores" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="195" height="20" uuid="8774dc87-74e0-44d6-9d8f-e6a1f8e3588f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL ERRORES POR DIA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="213" splitType="Stretch">
+			<bar3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="211" uuid="26757f02-9383-4cd9-a53d-6cc89b2dcd88"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{DiaSemana}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{DiaSemana}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{TotalErrores}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#97510C"/>
+						<seriesColor seriesOrder="1" color="#E04DFC"/>
+						<seriesColor seriesOrder="2" color="#CEDD3B"/>
+						<seriesColor seriesOrder="3" color="#D1B2AD"/>
+						<seriesColor seriesOrder="4" color="#93899F"/>
+						<seriesColor seriesOrder="5" color="#D16A6E"/>
+						<seriesColor seriesOrder="6" color="#7C357E"/>
+					</plot>
+					<itemLabel color="#00FFFF" backgroundColor="#FFFFFF">
+						<font fontName="Arial" size="12" isBold="true" isItalic="true" pdfFontName="Helvetica"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["DIA"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#333333">
+							<labelFont>
+								<font isBold="false" isItalic="false"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["CANTDAD ERRORES"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat labelColor="#333333" tickLabelMask="">
+							<labelFont>
+								<font fontName="Arial"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

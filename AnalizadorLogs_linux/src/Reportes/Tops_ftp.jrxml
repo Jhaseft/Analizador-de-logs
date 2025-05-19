@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tops_ftp" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7e12007a-0e5c-4ec5-970c-5c82ae356d75">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+  -- IP con más actividad
+  (SELECT Ip FROM ftp GROUP BY Ip ORDER BY COUNT(*) DESC LIMIT 1) AS ip_mas_activa,
+
+  -- IP con más errores
+  (SELECT Ip FROM ftp
+   WHERE LOWER(Mensaje) LIKE '%error%' OR LOWER(Mensaje) LIKE '%fail%'
+   GROUP BY Ip ORDER BY COUNT(*) DESC LIMIT 1) AS ip_con_mas_errores,
+
+  -- Usuario con más actividad
+  (SELECT Usuario FROM ftp GROUP BY Usuario ORDER BY COUNT(*) DESC LIMIT 1) AS usuario_mas_activo,
+
+  -- Usuario con más transferencias (STOR o RETR)
+  (SELECT Usuario FROM ftp
+   WHERE UPPER(Comando) IN ('STOR', 'RETR')
+   GROUP BY Usuario ORDER BY COUNT(*) DESC LIMIT 1) AS usuario_mas_transf;]]>
+	</queryString>
+	<field name="ip_mas_activa" class="java.lang.String"/>
+	<field name="ip_con_mas_errores" class="java.lang.String"/>
+	<field name="usuario_mas_activo" class="java.lang.String"/>
+	<field name="usuario_mas_transf" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="107" splitType="Stretch">
+			<textField>
+				<reportElement x="123" y="48" width="100" height="20" uuid="e9e625a6-578d-4f08-aec2-430cb546d6fc"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ip_mas_activa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="123" y="68" width="123" height="20" uuid="2ae4eca9-ac4e-4ed5-852c-994765235ca1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ip_con_mas_errores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="479" y="48" width="79" height="20" uuid="eb181538-fa04-4eca-a11a-df98bbd78eb5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario_mas_activo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="18" width="100" height="20" uuid="0ebebe5b-99f9-4453-88a0-19db629e4149"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOP IP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="18" width="100" height="20" uuid="efa00776-a118-40a4-b306-2f2ddd867a21"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOP USUARIOS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="479" y="68" width="79" height="20" uuid="0604ac10-5a51-4d78-a411-0e5368ed46a2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usuario_mas_transf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="48" width="123" height="20" uuid="ede082b4-73d5-4cd4-a69b-437289807e8c"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Ip con mas actividad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="68" width="123" height="20" uuid="e76c8990-0324-42f6-ac54-c26607aafd50"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Ip con mas errores:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="48" width="191" height="20" uuid="7d7d9f4c-8e01-4f03-8666-efd603d9b2f1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Usuario con mas actividad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="288" y="68" width="191" height="20" uuid="9832b488-30fa-4f1b-bfa8-c250015dc044"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Usuario con mas transferencia:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

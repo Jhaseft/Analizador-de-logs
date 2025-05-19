@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grafica_PorcentajeErroresPorCodigo_errorLog" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c26c8cae-f784-4352-beb6-ee03a04aceb7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS Nro,
+    Codigo,
+    COUNT(*) AS Total,
+    ROUND(COUNT(*) * 100.0 / total_errores.TotalGeneral, 2) AS Porcentaje
+FROM error_log,
+    (SELECT COUNT(*) AS TotalGeneral FROM error_log) AS total_errores
+GROUP BY Codigo, total_errores.TotalGeneral
+ORDER BY Total DESC;]]>
+	</queryString>
+	<field name="Nro" class="java.lang.Long"/>
+	<field name="Codigo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Total" class="java.lang.Long"/>
+	<field name="Porcentaje" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="572" height="20" uuid="db5bf458-3003-4393-822a-5a4667900a7d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PORCENTAJE DE ERRORES POR CODIGO.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="234" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="234" uuid="dfb09023-f938-4663-81eb-52fc2aa85a94"/>
+					<box bottomPadding="0" rightPadding="0">
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid"/>
+					</box>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Codigo}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Codigo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Porcentaje}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="true" isShowTickMarks="true">
+					<plot orientation="Horizontal">
+						<seriesColor seriesOrder="0" color="#E29AEA"/>
+						<seriesColor seriesOrder="1" color="#C20DAA"/>
+						<seriesColor seriesOrder="2" color="#5D5E9E"/>
+						<seriesColor seriesOrder="3" color="#14683C"/>
+						<seriesColor seriesOrder="4" color="#65D14A"/>
+						<seriesColor seriesOrder="5" color="#85EFD9"/>
+						<seriesColor seriesOrder="6" color="#A24C34"/>
+						<seriesColor seriesOrder="7" color="#829623"/>
+						<seriesColor seriesOrder="8" color="#79654E"/>
+						<seriesColor seriesOrder="9" color="#ABA16F"/>
+						<seriesColor seriesOrder="10" color="#4BB28E"/>
+						<seriesColor seriesOrder="11" color="#F76351"/>
+						<seriesColor seriesOrder="12" color="#DC669C"/>
+						<seriesColor seriesOrder="13" color="#5E6B48"/>
+						<seriesColor seriesOrder="14" color="#076556"/>
+						<seriesColor seriesOrder="15" color="#56973D"/>
+						<seriesColor seriesOrder="16" color="#9E579F"/>
+						<seriesColor seriesOrder="17" color="#43A698"/>
+						<seriesColor seriesOrder="18" color="#C84FB9"/>
+					</plot>
+					<itemLabel color="#000000">
+						<font fontName="Arial" size="10" isBold="true" isItalic="true"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["CODIGO"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["PORCENTAJE ERRORES"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat tickLabelMask="#0.##'%'  " verticalTickLabels="true">
+							<labelFont>
+								<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

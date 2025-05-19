@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Grafica_promedioAccesosPorHora_accesLog" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4c4a9105-2997-41f8-9d1d-1d5d45c23f6f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+  DATE_FORMAT(Fecha, '%h:00 %p') AS Hora,
+  COUNT(*) AS TotalAccesos,
+  COUNT(DISTINCT DATE(Fecha)) AS DiasUnicos,
+  ROUND(COUNT(*) / COUNT(DISTINCT DATE(Fecha)), 2) AS PromedioPorHora
+FROM acces_log
+GROUP BY Hora
+ORDER BY STR_TO_DATE(Hora, '%h:00 %p');
+]]>
+	</queryString>
+	<field name="Hora" class="java.lang.String"/>
+	<field name="TotalAccesos" class="java.lang.Long"/>
+	<field name="DiasUnicos" class="java.lang.Long"/>
+	<field name="PromedioPorHora" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="232" height="20" uuid="88fbf953-bba9-40d3-8914-75d0198266b2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROMEDIO DE ACCESOS POR HORA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="212" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="0" y="0" width="572" height="211" uuid="0de6cacb-40dd-421f-b238-164fb56eaa3e"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{Hora}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Hora}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{PromedioPorHora}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="true" isShowTickMarks="true">
+					<plot>
+						<seriesColor seriesOrder="0" color="#E6BCC4"/>
+						<seriesColor seriesOrder="1" color="#98674E"/>
+						<seriesColor seriesOrder="2" color="#9737DE"/>
+						<seriesColor seriesOrder="3" color="#2EACFD"/>
+						<seriesColor seriesOrder="4" color="#30C693"/>
+						<seriesColor seriesOrder="5" color="#EAECC3"/>
+						<seriesColor seriesOrder="6" color="#ECE7B1"/>
+						<seriesColor seriesOrder="7" color="#6B0F17"/>
+						<seriesColor seriesOrder="8" color="#EC279B"/>
+						<seriesColor seriesOrder="9" color="#9DFD26"/>
+						<seriesColor seriesOrder="10" color="#6BB44F"/>
+						<seriesColor seriesOrder="11" color="#0418BA"/>
+						<seriesColor seriesOrder="12" color="#D9C0FE"/>
+						<seriesColor seriesOrder="13" color="#B6BB6B"/>
+						<seriesColor seriesOrder="14" color="#0AE0E5"/>
+						<seriesColor seriesOrder="15" color="#5FC562"/>
+						<seriesColor seriesOrder="16" color="#BA1C4C"/>
+						<seriesColor seriesOrder="17" color="#CA4F27"/>
+						<seriesColor seriesOrder="18" color="#33687F"/>
+						<seriesColor seriesOrder="19" color="#E26CFE"/>
+						<seriesColor seriesOrder="20" color="#4D7816"/>
+						<seriesColor seriesOrder="21" color="#1E35A0"/>
+						<seriesColor seriesOrder="22" color="#A7BFDC"/>
+						<seriesColor seriesOrder="23" color="#697798"/>
+					</plot>
+					<itemLabel color="#000000" backgroundColor="#00FFFF">
+						<font fontName="Arial" size="11" isBold="true" isItalic="true"/>
+					</itemLabel>
+					<categoryAxisLabelExpression><![CDATA["HORA"]]></categoryAxisLabelExpression>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisLabelExpression><![CDATA["PROMEDIO"]]></valueAxisLabelExpression>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

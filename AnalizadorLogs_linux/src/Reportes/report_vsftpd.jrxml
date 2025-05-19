@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE_VSFTPD" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a50ed50-1fb9-4f36-ba1c-235f13123c4e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Wed May 14 17:18:37 BOT 2025"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tablaReporte" uuid="7d4e0885-fb37-47e7-b694-b560be4aacfd">
+		<queryString>
+			<![CDATA[SELECT
+     Fecha,
+     Pid,
+     Comando,
+     Usuario,
+     Ip,
+     Mensaje
+FROM
+     ftp
+WHERE
+     Ip = '127.0.0.1'
+ORDER BY
+     fecha DESC]]>
+		</queryString>
+		<field name="Fecha" class="java.sql.Timestamp">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Pid" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Comando" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Usuario" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Ip" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Mensaje" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="resumenGeneral" uuid="ff947268-c386-4979-87bc-4456ed8bf941">
+		<queryString>
+			<![CDATA[SELECT
+  COUNT(*) AS total_conexiones,
+  SUM(CASE WHEN UPPER(Comando) = 'STOR' THEN 1 ELSE 0 END) AS total_subidos,
+  SUM(CASE WHEN UPPER(Comando) = 'RETR' THEN 1 ELSE 0 END) AS total_descargados,
+  SUM(CASE WHEN LOWER(Mensaje) LIKE '%error%' OR LOWER(Mensaje) LIKE '%fail%' THEN 1 ELSE 0 END) AS total_errores
+FROM ftp;]]>
+		</queryString>
+		<field name="total_conexiones" class="java.lang.Long"/>
+		<field name="total_subidos" class="java.math.BigDecimal"/>
+		<field name="total_descargados" class="java.math.BigDecimal"/>
+		<field name="total_errores" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Usuario\\Documents\\TSO y ASO\\ANALIZADOR DE LOGS\\Analizador-de-logs\\Desktop\\AnalizadorLogs\\src\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+  COUNT(*) AS total_conexiones,
+  SUM(CASE WHEN UPPER(Comando) = 'STOR' THEN 1 ELSE 0 END) AS total_subidos,
+  SUM(CASE WHEN UPPER(Comando) = 'RETR' THEN 1 ELSE 0 END) AS total_descargados,
+  SUM(CASE WHEN LOWER(Mensaje) LIKE '%error%' OR LOWER(Mensaje) LIKE '%fail%' THEN 1 ELSE 0 END) AS total_errores
+FROM ftp;]]>
+	</queryString>
+	<field name="total_conexiones" class="java.lang.Long"/>
+	<field name="total_subidos" class="java.math.BigDecimal"/>
+	<field name="total_descargados" class="java.math.BigDecimal"/>
+	<field name="total_errores" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50">
+			<textField evaluationTime="Report">
+				<reportElement x="531" y="0" width="20" height="20" uuid="a11472fa-0664-491d-89bd-11ffc5318b46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="4" y="0" width="173" height="20" uuid="42047036-018d-4117-b486-5b84e9608a1e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["generado el: "+new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="76" height="20" uuid="12d38309-4b2b-48c1-b154-4810b1268afd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="185" y="20" width="205" height="20" uuid="030b79af-6090-4586-a6ec-c70bd661a28a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Rounded MT Bold" size="14" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ACTIVIDAD FTP]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="609" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="127" height="16" uuid="a0399fbd-6865-4e89-a5ed-3e03a640e0e2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESUMEN GENERAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="27" width="100" height="20" uuid="3d4334ae-063b-401f-8ccb-8eb4fd9a155d"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total conexiones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="47" width="162" height="20" uuid="ec9978e7-1f17-4f44-bff2-7c2a2962081f"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total de archivos subidos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="67" width="183" height="20" uuid="f3aee153-9802-4a93-b5ed-854ebde74605"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[total de archivos descargados:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="87" width="100" height="20" uuid="969db87f-503a-4128-badf-908e4348857e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Total errores:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="302" y="87" width="138" height="20" uuid="26445069-4874-4f8d-930a-cd48fe06d1ce"/>
+				<textFieldExpression><![CDATA[$F{total_errores}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="67" width="138" height="20" uuid="7cc0d607-ca93-4913-88c4-0fb499e5a3e1"/>
+				<textFieldExpression><![CDATA[$F{total_descargados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="47" width="138" height="20" uuid="69d5cba2-9474-4955-bbc2-6e9b1ea31c4f"/>
+				<textFieldExpression><![CDATA[$F{total_subidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="27" width="138" height="20" uuid="7501114b-d174-49fb-bbfc-7a6863a3f51c"/>
+				<textFieldExpression><![CDATA[$F{total_conexiones}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="222" width="555" height="221" uuid="53137963-c279-4dca-894b-87b7d16c32cc"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "GraficoBarras_ftp.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="129" width="555" height="75" uuid="3f033425-292c-4335-b482-927ca9030b02"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Tops_ftp.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="453" width="555" height="155" uuid="50032c4e-59ae-477f-aded-d3fb995988c6"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_actividadFTPporDirIP_vsftpd.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="432" uuid="8ee5f960-f5c5-44d4-9304-58712ecd7bf6"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_rankingComanFTOmasUtiliz_vsftpd.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="452" width="555" height="326" uuid="f15d2bf5-d28b-41d9-959b-9cdc2651391f"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_actividadFTPporRangoHorario_vsftpd.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="790" width="555" height="12" uuid="46f67f05-eabb-4ca8-b323-c78aab978ba3"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pastel_DistribucionPorDiaDeLaSemana_vsftpd.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>
