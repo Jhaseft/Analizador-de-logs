@@ -38,13 +38,13 @@ public class ASO02 extends javax.swing.JFrame {
         setTitle("Analizador de Logs");
         setLocationRelativeTo(null);
         popup();
-        ImageIcon fondo = new ImageIcon("src/images/fondo.jpg");
-        /*Para que la imagen se adapte a las dimensiones del fondo o jLabel_fondo.*/
-        Icon iconoFondo = new ImageIcon(fondo.getImage().getScaledInstance(this.fondo.getWidth(), 
-                            this.fondo.getHeight(), Image.SCALE_DEFAULT));
-        this.fondo.setIcon(iconoFondo);
-        /*Para asegurar que la imagen se vea.*/
-//        this.repaint();
+        ImageIcon fondo = new ImageIcon(getClass().getResource("/images/fondo.jpg"));
+        Image imagen = fondo.getImage().getScaledInstance(
+        jLabel_fondo.getWidth(), jLabel_fondo.getHeight(), Image.SCALE_SMOOTH);
+        jLabel_fondo.setIcon(new ImageIcon(imagen));
+        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png"));
+        setIconImage(icono);
+
     }
     public void popup(){
         JPopupMenu popumenu=new JPopupMenu();
@@ -89,7 +89,7 @@ public class ASO02 extends javax.swing.JFrame {
 
         jLabel_servicio = new javax.swing.JLabel();
         jButton_volver = new javax.swing.JButton();
-        btnreportes = new javax.swing.JButton();
+        btnresum = new javax.swing.JButton();
         btnactualizar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla1 = new javax.swing.JTable();
@@ -107,7 +107,8 @@ public class ASO02 extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnFiltrar = new javax.swing.JButton();
-        fondo = new javax.swing.JLabel();
+        btnreport1 = new javax.swing.JButton();
+        jLabel_fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -121,30 +122,33 @@ public class ASO02 extends javax.swing.JFrame {
 
         jButton_volver.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton_volver.setText("Volver");
+        jButton_volver.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_volverActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 170, 50));
+        getContentPane().add(jButton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 460, 170, 50));
 
-        btnreportes.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        btnreportes.setText("Reportes");
-        btnreportes.addActionListener(new java.awt.event.ActionListener() {
+        btnresum.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnresum.setText("Resumen");
+        btnresum.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnresum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnreportesActionPerformed(evt);
+                btnresumActionPerformed(evt);
             }
         });
-        getContentPane().add(btnreportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 450, 170, 50));
+        getContentPane().add(btnresum, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 460, 140, 50));
 
         btnactualizar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         btnactualizar.setText("Actualizar");
+        btnactualizar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnactualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnactualizarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnactualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 200, 50));
+        getContentPane().add(btnactualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 460, 200, 50));
 
         Tabla1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
@@ -161,12 +165,13 @@ public class ASO02 extends javax.swing.JFrame {
 
         btnlistar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         btnlistar.setText("Listar");
+        btnlistar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnlistar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnlistarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnlistar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 450, 170, 50));
+        getContentPane().add(btnlistar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 170, 50));
 
         txtfech3.setDateFormatString("yyyy-MM-dd");
         getContentPane().add(txtfech3, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 20, 150, -1));
@@ -190,10 +195,12 @@ public class ASO02 extends javax.swing.JFrame {
 
         txtrango.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         txtrango.setText("Buscar Rango");
+        txtrango.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(txtrango, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 60, -1, 20));
 
         lblbuscar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblbuscar.setText("Buscar Ocurrencia");
+        lblbuscar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(lblbuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
         getContentPane().add(andor, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 100, 220, 30));
 
@@ -213,6 +220,7 @@ public class ASO02 extends javax.swing.JFrame {
 
         txtbuscarfecha.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         txtbuscarfecha.setText("Buscar Fecha");
+        txtbuscarfecha.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(txtbuscarfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 60, -1, 20));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -229,13 +237,24 @@ public class ASO02 extends javax.swing.JFrame {
 
         btnFiltrar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         btnFiltrar.setText("Filtrar");
+        btnFiltrar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFiltrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 100, 130, -1));
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));
+        getContentPane().add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 100, 130, -1));
+
+        btnreport1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnreport1.setText("Reportes");
+        btnreport1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnreport1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnreport1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnreport1, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 170, 50));
+        getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -247,9 +266,9 @@ public class ASO02 extends javax.swing.JFrame {
    
     }//GEN-LAST:event_jButton_volverActionPerformed
 
-    private void btnreportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnreportesActionPerformed
+    private void btnresumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnresumActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnreportesActionPerformed
+    }//GEN-LAST:event_btnresumActionPerformed
 
     private void btnactualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactualizarActionPerformed
         // TODO add your handling code here:
@@ -274,6 +293,10 @@ public class ASO02 extends javax.swing.JFrame {
     private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private void btnreport1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnreport1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnreport1ActionPerformed
      
      
     
@@ -318,12 +341,13 @@ public class ASO02 extends javax.swing.JFrame {
     public javax.swing.JButton btnFiltrar;
     public javax.swing.JButton btnactualizar;
     public javax.swing.JButton btnlistar;
-    public javax.swing.JButton btnreportes;
+    public javax.swing.JButton btnreport1;
+    public javax.swing.JButton btnresum;
     public javax.swing.JComboBox<String> combox;
-    public javax.swing.JLabel fondo;
     public javax.swing.JButton jButton_volver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    public javax.swing.JLabel jLabel_fondo;
     private javax.swing.JLabel jLabel_servicio;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JButton lblbuscar;

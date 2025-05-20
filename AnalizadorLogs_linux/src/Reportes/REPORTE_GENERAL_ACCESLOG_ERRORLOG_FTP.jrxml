@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE_GENERAL_ACCESLOG_ERRORLOG_FTP" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="71ee5666-21b6-4c11-ad20-1215becdb8bf">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="699"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aso"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -99,12 +101,36 @@
 			<style backcolor="#EFF7FF"/>
 		</conditionalStyle>
 	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
 	<subDataset name="Tabla" uuid="bd4d8c83-fb54-4ed5-884f-bbb60c932dee">
 		<queryString>
 			<![CDATA[SELECT
   'AccesLog' AS tipo_log,
   COUNT(*) AS total_registros,
-  'Logs de accesos HTTP registrados en el sistema' AS descripcion
+  'Logs de accesos registrados en el sistema' AS descripcion
 FROM acces_log
 
 UNION ALL
@@ -128,13 +154,13 @@ FROM ftp;]]>
 		<field name="descripcion" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\Usuario\\Documents\\TSO y ASO\\ANALIZADOR DE LOGS\\Analizador-de-logs\\Desktop\\AnalizadorLogs\\src\\reportes\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:/Users/ASUS/JaspersoftWorkspace/jhoellll/"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
   'AccesLog' AS tipo_log,
   COUNT(*) AS total_registros,
-  'Logs de accesos HTTP registrados en el sistema' AS descripcion
+  'Logs de accesos registrados en el sistema' AS descripcion
 FROM acces_log
 
 UNION ALL
@@ -193,6 +219,7 @@ FROM ftp;]]>
 	</title>
 	<detail>
 		<band height="409" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
 			<staticText>
 				<reportElement x="0" y="0" width="572" height="20" uuid="1b311bde-ada9-4b70-b694-cf15e8225947">
 					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
@@ -202,79 +229,6 @@ FROM ftp;]]>
 				</textElement>
 				<text><![CDATA[RESUMEN GENERAL.]]></text>
 			</staticText>
-			<componentElement>
-				<reportElement key="table 3" style="table 3" x="0" y="20" width="572" height="91" uuid="acf83568-c55c-4210-ac8b-6d0811fa5f64">
-					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
-				</reportElement>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Tabla" uuid="84c45af7-4b74-421d-b927-89e7611cbc73">
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-					</datasetRun>
-					<jr:column width="83" uuid="234d2f26-1277-476c-ac6e-b2e6ab59d602">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="83" height="30" uuid="0fd982e1-4406-4fc2-96ef-232f3d519652"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="12" isBold="true"/>
-								</textElement>
-								<text><![CDATA[TIPO DE LOG]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter style="table 3_CH" height="30" rowSpan="1"/>
-						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="83" height="20" uuid="2ea4e07c-d4e7-4caf-975f-b92e1adadb35"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{tipo_log}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="102" uuid="0f51cf98-5072-41a5-8e91-f541cb7e043c">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="102" height="30" uuid="d102c492-aed2-4323-b3da-3eedbc629ae9"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="12" isBold="true"/>
-								</textElement>
-								<text><![CDATA[TOTAL REGISTROS]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter style="table 3_CH" height="30" rowSpan="1"/>
-						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="102" height="20" uuid="e0699b22-6fd2-4512-8dec-64a65aa317b2"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{total_registros}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="387" uuid="e6177b7d-4be9-4586-a1d1-b6af4566d3f1">
-						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement x="0" y="0" width="387" height="30" uuid="71d2a67d-754f-4532-88fe-98420dc60823"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font fontName="Arial" size="12" isBold="true"/>
-								</textElement>
-								<text><![CDATA[DESCRIPCION]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter style="table 3_CH" height="30" rowSpan="1"/>
-						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
-							<textField>
-								<reportElement x="0" y="0" width="387" height="20" uuid="b08cf5e9-5818-4f4f-9b76-4a1d720a5fb2"/>
-								<textElement verticalAlignment="Middle">
-									<font fontName="Arial" size="12"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
 			<bar3DChart>
 				<chart>
 					<reportElement x="0" y="143" width="572" height="216" uuid="3d698f34-877d-4fdc-8493-95f3661b04c0">
@@ -285,6 +239,7 @@ FROM ftp;]]>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
+					<dataset resetType="Report"/>
 					<categorySeries>
 						<seriesExpression><![CDATA[$F{tipo_log}]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{tipo_log}]]></categoryExpression>
@@ -321,15 +276,88 @@ FROM ftp;]]>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_comparacionPorDia_general.jasper"]]></subreportExpression>
 			</subreport>
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="0" y="20" width="572" height="96" uuid="11e17be7-64ff-48d5-b6f2-28422cc5f72e">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Tabla" uuid="53f6b730-0b82-43e8-9292-18b115e9674f">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="109" uuid="8f4e04ca-d4a3-4244-8929-0dd08a2469d5">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="109" height="30" uuid="cbe2024e-2d31-406a-a60d-f93811126c0c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TIPO DE LOG]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="109" height="20" uuid="ff2e9d1d-5445-432c-a123-6f32578e9e4d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{tipo_log}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="103" uuid="ca51f1b6-1dc2-451a-a919-a99ba8def428">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="103" height="30" uuid="b7385b86-b4be-402c-8d0e-17a508ecb84e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL REGISTROS]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="103" height="20" uuid="b4169d07-4850-4424-b879-6a83f2fdfde9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{total_registros}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="357" uuid="f628a87d-e09f-4a32-89ff-054e8a441135">
+						<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="337" height="30" uuid="34f33177-0b81-4d98-8668-ec2b5731d1f9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DESCRIPCION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="337" height="20" uuid="8d5c1fbd-6e70-46d7-9254-a262972782f8"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
-		<band height="600">
+		<band height="535">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
 			<subreport>
-				<reportElement x="0" y="0" width="572" height="247" uuid="0827b3cb-3893-45bb-8a85-4f0e41494988"/>
+				<reportElement x="0" y="0" width="572" height="247" uuid="0827b3cb-3893-45bb-8a85-4f0e41494988">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_comparacionPorUsuarios_general.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="267" width="572" height="329" uuid="9f3807cf-5907-42a5-9df1-69d09894482d">
+				<reportElement x="0" y="267" width="572" height="262" uuid="9f3807cf-5907-42a5-9df1-69d09894482d">
 					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
 				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>

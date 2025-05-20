@@ -32,13 +32,13 @@ public class ASO03 extends javax.swing.JFrame {
         setTitle("Analizador de Logs");
         setLocationRelativeTo(null);
         popup();
-        ImageIcon fondo = new ImageIcon("src/images/fondo.jpg");
-        /*Para que la imagen se adapte a las dimensiones del fondo o jLabel_fondo.*/
-        Icon iconoFondo = new ImageIcon(fondo.getImage().getScaledInstance(jLabel_fondo.getWidth(), 
-                            jLabel_fondo.getHeight(), Image.SCALE_DEFAULT));
-        jLabel_fondo.setIcon(iconoFondo);
-        /*Para asegurar que la imagen se vea.*/
-//        this.repaint();
+        ImageIcon fondo = new ImageIcon(getClass().getResource("/images/fondo.jpg"));
+        Image imagen = fondo.getImage().getScaledInstance(
+        jLabel_fondo.getWidth(), jLabel_fondo.getHeight(), Image.SCALE_SMOOTH);
+        jLabel_fondo.setIcon(new ImageIcon(imagen));
+        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png"));
+        setIconImage(icono);
+
     }
     
     public void popup(){
@@ -111,18 +111,18 @@ public class ASO03 extends javax.swing.JFrame {
 
         Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "", "", "", ""
+
             }
         ));
         registro.setViewportView(Tabla1);
 
-        getContentPane().add(registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 1080, 250));
+        getContentPane().add(registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 1080, 250));
 
         btnvolver3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         btnvolver3.setText("Volver");
@@ -148,7 +148,8 @@ public class ASO03 extends javax.swing.JFrame {
 
         lblruta3.setBackground(new java.awt.Color(255, 255, 255));
         lblruta3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        getContentPane().add(lblruta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 240, 30));
+        lblruta3.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(lblruta3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 240, 30));
 
         jLabel_fondo.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 560));

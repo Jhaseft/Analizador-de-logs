@@ -7,22 +7,45 @@ package controlador;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 import vista.*;
 import modelo.*;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -58,15 +81,15 @@ public class controlador implements ActionListener {
         this.view3.fallas.addActionListener(this);
         this.view3.Errores.addActionListener(this);
         this.view3.accesos.addActionListener(this);
-        
-        
+        this.view2.btnreport1.addActionListener(this);
+        this.view2.btnresum.addActionListener(this);
     }
    public void iniciar(){
        cn=new conexion();
         con=(Connection) cn.getconexion();
-     if(con!=null){
-         
+     if(con!=null){       
        view1.setLocationRelativeTo(null);
+        view1.setVisible(true);
      }else{
          try{
          System.exit(0);
@@ -85,7 +108,7 @@ public class controlador implements ActionListener {
         }
       //acciones para el boton de salir
      if(e.getSource()==view1.btnsalir){    
-         view1.dispose();
+         System.exit(0);
          }
      //acciones para el boton de volver
      if(e.getSource()==view2.jButton_volver){    
@@ -122,9 +145,10 @@ public class controlador implements ActionListener {
                 //codigo para meter datos a tabla
                 if(model.getRuta().contains("access_log")){
                     List<Parametrosapache_acceslog>lista1=model.leerlogacces_log(); 
-                    DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
+                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
                     modelo.setColumnIdentifiers(model.getencabezadoacces_log());
+                    personalizarencabezado(model.getencabezadoacces_log());
                     meterdatosBDacces(lista1);
                 }
                 if(model.getRuta().contains("error_log")){  
@@ -132,6 +156,7 @@ public class controlador implements ActionListener {
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
                     modelo.setColumnIdentifiers(model.getencabezadoerror_log());
+                    personalizarencabezado(model.getencabezadoerror_log());
                     meterdatosBDerror(lista2);
                 }
                 if(model.getRuta().contains("vsftpd")){                   
@@ -139,6 +164,7 @@ public class controlador implements ActionListener {
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();      
                     modelo.setRowCount(0);
                     modelo.setColumnIdentifiers(model.getencabezadoFTP());
+                    personalizarencabezado(model.getencabezadoFTP());
                     meterdatosBDftp(lista3);
                 }
         }
@@ -431,6 +457,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoacces_log());
+                        personalizarencabezado(model.getencabezadoacces_log());
                         meterdatosacces(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                     }
@@ -446,6 +474,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoerror_log());
+                        personalizarencabezado(model.getencabezadoerror_log());
                         meterdatoserror(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                     }
@@ -461,6 +491,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoFTP());
+                        personalizarencabezado(model.getencabezadoFTP());
                         meterdatosvsftpd(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                      
@@ -491,6 +523,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoacces_log());
+                        personalizarencabezado(model.getencabezadoacces_log());
                         meterdatosacces(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                     }
@@ -506,6 +540,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoerror_log());
+                        personalizarencabezado(model.getencabezadoerror_log());
                         meterdatoserror(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                     }
@@ -521,6 +557,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoFTP());
+                        personalizarencabezado(model.getencabezadoFTP());
                         meterdatosvsftpd(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                      
@@ -551,6 +589,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoacces_log());
+                        personalizarencabezado(model.getencabezadoacces_log());
                         meterdatosacces(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                     }
@@ -566,6 +606,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoerror_log());
+                        personalizarencabezado(model.getencabezadoerror_log());
                         meterdatoserror(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                     }
@@ -581,6 +623,8 @@ public class controlador implements ActionListener {
                         JOptionPane.showMessageDialog(null,"Exportando datos");
                         DefaultTableModel modelo=(DefaultTableModel)view3.Tabla1.getModel();
                         modelo.setRowCount(0);
+                        modelo.setColumnIdentifiers(model.getencabezadoFTP());
+                        personalizarencabezado(model.getencabezadoFTP());
                         meterdatosvsftpd(lista1, modelo);
                         JOptionPane.showMessageDialog(null,"Datos exportados con exito");
                      
@@ -614,9 +658,74 @@ public class controlador implements ActionListener {
        
        }
        
-       
+        if(e.getSource()==view2.btnreport1){
+        
+          try {
+              
+              if(model.getRuta().contains("access_log")){
+                Map<String, Object> parametros = new HashMap<>();
+                // Ruta al directorio de subreportes (como URL, por si usas subreportes)
+                String subreportDir = getClass().getResource("/Reportes/").toString();
+                parametros.put("SUBREPORT_DIR", subreportDir);
+                // Cargar el .jasper desde el classpath
+                InputStream reporteStream = getClass().getResourceAsStream("/Reportes/reporte_accesLog.jasper");   
+                JasperReport  report=(JasperReport) JRLoader.loadObject(reporteStream);
+                // Ejecutar el reporte
+                JasperPrint print = JasperFillManager.fillReport(report, parametros, con);
+                JasperExportManager.exportReportToPdf(print);
+                JasperViewer viewer = new JasperViewer(print, false);
+                viewer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                viewer.setVisible(true);
+              }
+                if(model.getRuta().contains("error_log")){
+                Map<String, Object> parametros = new HashMap<>();
+                String subreportDir = getClass().getResource("/Reportes/").toString();
+                parametros.put("SUBREPORT_DIR", subreportDir);
+                InputStream reporteStream = getClass().getResourceAsStream("/Reportes/REPORTE_ERRORLOG.jasper");     
+                JasperPrint print = JasperFillManager.fillReport(reporteStream, parametros, con);
+                JasperExportManager.exportReportToPdf(print);
+                JasperViewer viewer = new JasperViewer(print, false);
+                 viewer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                viewer.setVisible(true);
+                }
+                
+                if(model.getRuta().contains("vsftpd")){ 
+                 Map<String, Object> parametros = new HashMap<>();
+                String subreportDir = getClass().getResource("/Reportes/").toString();
+                parametros.put("SUBREPORT_DIR", subreportDir);
+                InputStream reporteStream = getClass().getResourceAsStream("/Reportes/report_vsftpd.jasper");     
+                JasperPrint print = JasperFillManager.fillReport(reporteStream, parametros, con);
+                JasperExportManager.exportReportToPdf(print);
+                JasperViewer viewer = new JasperViewer(print, false);
+                 viewer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                viewer.setVisible(true);
+                }
+                
+          } catch (JRException ex) {
+              JOptionPane.showMessageDialog(null,"Error: "+ex.getMessage());
+          }
         
         
+        
+        }
+        
+        if(e.getSource()==view2.btnresum){
+            try{
+         Map<String, Object> parametros = new HashMap<>();
+                String subreportDir = getClass().getResource("/Reportes/").toString();
+                parametros.put("SUBREPORT_DIR", subreportDir);
+                InputStream reporteStream = getClass().getResourceAsStream("/Reportes/REPORTE_GENERAL_ACCESLOG_ERRORLOG_FTP.jasper");
+                JasperPrint print = JasperFillManager.fillReport(reporteStream, parametros, con);
+                JasperExportManager.exportReportToPdf(print);
+                JasperViewer viewer = new JasperViewer(print, false);
+                viewer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                viewer.setVisible(true);
+                
+            }catch(JRException ex){
+            JOptionPane.showMessageDialog(null,"Error: "+ex.getMessage());
+            }    
+        
+        }
          
          
             
@@ -945,7 +1054,66 @@ public class controlador implements ActionListener {
                         }
     }
     
-   
+    private void personalizarencabezado(String encabezado[]){
+        
+            JTableHeader header = view2.Tabla1.getTableHeader();
+    header.setDefaultRenderer(new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel label = new JLabel(value.toString());
+            label.setOpaque(true);
+            label.setBackground(new Color(45, 85, 155)); // Color de fondo (azul oscuro)
+            label.setForeground(Color.WHITE);            // Texto blanco
+            label.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            label.setHorizontalAlignment(CENTER);        // Centrado
+            return label;
+        }
+    });
+    
+        view2.Tabla1.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if (isSelected) {
+                c.setBackground(new Color(70, 130, 180)); // Color al seleccionar
+                c.setForeground(Color.WHITE);
+            } else {
+                // Zebra (alternancia)
+                if (row % 2 == 0) {
+                    c.setBackground(new Color(245, 245, 245)); // Gris claro
+                } else {
+                    c.setBackground(new Color(225, 225, 225)); // Gris un poco más oscuro
+                }
+                c.setForeground(Color.BLACK);
+            }
+
+            return c;
+        }
+    });
+        
+    view2.Tabla1.setFont(new Font("SansSerif", Font.PLAIN, 13));
+    view2.Tabla1.setRowHeight(22); // Altura de filas
+
+    DefaultTableModel modeloActual = (DefaultTableModel) view2.Tabla1.getModel();
+    Vector datos = modeloActual.getDataVector();
+
+    Vector<String> encabezadoVector = new Vector<>(Arrays.asList(encabezado));
+
+    DefaultTableModel modeloNoEditable = new DefaultTableModel(datos, encabezadoVector) {
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+    };
+
+    view2.Tabla1.setModel(modeloNoEditable);
+    
+    }
+    
    
     
     

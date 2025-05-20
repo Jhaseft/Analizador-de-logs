@@ -29,13 +29,13 @@ public class ASO01 extends javax.swing.JFrame {
         setResizable(false);
         setTitle("Analizador de Logs");
         setLocationRelativeTo(null);
-        
-        ImageIcon fondo = new ImageIcon("src/images/fondo.jpg");
-        /*Para que la imagen se adapte a las dimensiones del fondo o jLabel_fondo.*/
-        
-       Image imagen = fondo.getImage().getScaledInstance(
-            jLabel_fondo.getWidth(), jLabel_fondo.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon fondo = new ImageIcon(getClass().getResource("/images/fondo.jpg"));
+        Image imagen = fondo.getImage().getScaledInstance(
+        jLabel_fondo.getWidth(), jLabel_fondo.getHeight(), Image.SCALE_SMOOTH);
         jLabel_fondo.setIcon(new ImageIcon(imagen));
+        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png"));
+        setIconImage(icono);
+
 
         /*Para asegurar que la imagen se vea.*/
 //        this.repaint();
@@ -72,11 +72,9 @@ public class ASO01 extends javax.swing.JFrame {
         jLabel_servidor.setText("Servidor:");
         getContentPane().add(jLabel_servidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 80, 40));
 
-        jbox1.setBackground(new java.awt.Color(204, 204, 255));
         jbox1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jbox1.setForeground(new java.awt.Color(0, 0, 0));
         jbox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Access", "Error", "FTP" }));
-        jbox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jbox1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jbox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbox1ActionPerformed(evt);
@@ -84,11 +82,9 @@ public class ASO01 extends javax.swing.JFrame {
         });
         getContentPane().add(jbox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 40, 200, 40));
 
-        btnsalir.setBackground(new java.awt.Color(255, 255, 102));
         btnsalir.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        btnsalir.setForeground(new java.awt.Color(0, 0, 0));
         btnsalir.setText("Salir");
-        btnsalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnsalir.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnsalir.setBorderPainted(false);
         btnsalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,11 +93,9 @@ public class ASO01 extends javax.swing.JFrame {
         });
         getContentPane().add(btnsalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 140, 50));
 
-        btnanalizar.setBackground(new java.awt.Color(255, 255, 102));
         btnanalizar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        btnanalizar.setForeground(new java.awt.Color(0, 0, 0));
         btnanalizar.setText("Analizar Logs");
-        btnanalizar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnanalizar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnanalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnanalizarActionPerformed(evt);
@@ -114,11 +108,10 @@ public class ASO01 extends javax.swing.JFrame {
         jLabel_ruta.setText("Ruta:");
         getContentPane().add(jLabel_ruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 70, 40));
 
-        txtruta.setBackground(new java.awt.Color(255, 255, 102));
+        txtruta.setBackground(new java.awt.Color(255, 255, 255));
         txtruta.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        txtruta.setForeground(new java.awt.Color(0, 0, 0));
         txtruta.setText("Seleccionar ruta del log");
-        txtruta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtruta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         txtruta.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtruta.setEnabled(false);
         txtruta.addActionListener(new java.awt.event.ActionListener() {
@@ -129,11 +122,9 @@ public class ASO01 extends javax.swing.JFrame {
         getContentPane().add(txtruta, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, 370, 40));
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, -1, -1));
 
-        btningresardatos.setBackground(new java.awt.Color(255, 255, 102));
         btningresardatos.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        btningresardatos.setForeground(new java.awt.Color(0, 0, 0));
         btningresardatos.setText("Ingresar Ruta Manualmente");
-        btningresardatos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btningresardatos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btningresardatos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btningresardatosActionPerformed(evt);
@@ -145,7 +136,9 @@ public class ASO01 extends javax.swing.JFrame {
         txtmens.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(txtmens, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, 260, 50));
 
-        jLabel_fondo.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel_fondo.setBackground(new java.awt.Color(46, 46, 46));
+        jLabel_fondo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_fondo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(139, 0, 0)));
         getContentPane().add(jLabel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 480));
 
         pack();

@@ -1,31 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package MVC;
 
 import controlador.controlador;
 import modelo.modelo;
-import vista.ASO01;
-import vista.ASO02;
-import vista.ASO03;
+import vista.*;
 
 /**
  *
  * @author saat
  */
-
 public class iniciar {
-    
-    public static void main (String args[]){
-    modelo mod=new modelo();
-    ASO01 view1=new ASO01();
-    ASO02 view2=new ASO02();
-    ASO03 view3=new ASO03();
-    
-      
-        controlador ctrl=new controlador(view1,view2,view3,mod);
-        ctrl.iniciar();
-         view1.setVisible(true);
-    }
+        public static void main(String args[]){
+            modelo mod=new modelo();
+            ASO01 v1=new ASO01();
+            ASO02 v2=new ASO02();
+            ASO03 v3=new ASO03();
+            controlador ctrl=new controlador(v1, v2, v3, mod);
+            ctrl.iniciar();
+        }
 }

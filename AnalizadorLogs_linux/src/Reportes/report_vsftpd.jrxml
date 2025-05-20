@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="REPORTE_VSFTPD" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a50ed50-1fb9-4f36-ba1c-235f13123c4e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="1581"/>
 	<property name="ireport.callouts" value="##Wed May 14 17:18:37 BOT 2025"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aso"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -146,7 +148,7 @@ FROM ftp;]]>
 		<field name="total_errores" class="java.math.BigDecimal"/>
 	</subDataset>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\Usuario\\Documents\\TSO y ASO\\ANALIZADOR DE LOGS\\Analizador-de-logs\\Desktop\\AnalizadorLogs\\src\\reportes\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:/Users/ASUS/JaspersoftWorkspace/jhoellll/"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -200,6 +202,7 @@ FROM ftp;]]>
 	</columnHeader>
 	<detail>
 		<band height="609" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
 			<staticText>
 				<reportElement x="0" y="0" width="127" height="16" uuid="a0399fbd-6865-4e89-a5ed-3e03a640e0e2"/>
 				<textElement>
@@ -252,40 +255,43 @@ FROM ftp;]]>
 				<textFieldExpression><![CDATA[$F{total_conexiones}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="222" width="555" height="221" uuid="53137963-c279-4dca-894b-87b7d16c32cc"/>
+				<reportElement x="0" y="222" width="555" height="221" uuid="53137963-c279-4dca-894b-87b7d16c32cc">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "GraficoBarras_ftp.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="129" width="555" height="75" uuid="3f033425-292c-4335-b482-927ca9030b02"/>
+				<reportElement x="0" y="129" width="555" height="75" uuid="3f033425-292c-4335-b482-927ca9030b02">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Tops_ftp.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="453" width="555" height="155" uuid="50032c4e-59ae-477f-aded-d3fb995988c6"/>
+				<reportElement x="0" y="453" width="555" height="155" uuid="50032c4e-59ae-477f-aded-d3fb995988c6">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_actividadFTPporDirIP_vsftpd.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-	</detail>
-	<summary>
-		<band height="802" splitType="Stretch">
+		<band height="762">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="432" uuid="8ee5f960-f5c5-44d4-9304-58712ecd7bf6"/>
+				<reportElement x="0" y="0" width="555" height="454" uuid="8ee5f960-f5c5-44d4-9304-58712ecd7bf6">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_rankingComanFTOmasUtiliz_vsftpd.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="452" width="555" height="326" uuid="f15d2bf5-d28b-41d9-959b-9cdc2651391f"/>
+				<reportElement x="0" y="475" width="555" height="283" uuid="f15d2bf5-d28b-41d9-959b-9cdc2651391f">
+					<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+				</reportElement>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "grafica_actividadFTPporRangoHorario_vsftpd.jasper"]]></subreportExpression>
 			</subreport>
-			<subreport>
-				<reportElement x="0" y="790" width="555" height="12" uuid="46f67f05-eabb-4ca8-b323-c78aab978ba3"/>
-				<subreportParameter name="SUBREPORT_DIR"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pastel_DistribucionPorDiaDeLaSemana_vsftpd.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
-	</summary>
+	</detail>
 </jasperReport>
