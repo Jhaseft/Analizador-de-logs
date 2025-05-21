@@ -253,60 +253,81 @@ public class modelo {
         
     }
     //vsftpd jhoel
-     public List<Parametros_vsftpd> leerLogVsftpd() {
+    public List<Parametros_vsftpd> leerLogVsftpd() {
     try {
         BufferedReader lector = new BufferedReader(new FileReader(ruta));
         String linea="";
-    while ((linea = lector.readLine()) != null) {
-            String normalizar = normalizarlinea(linea);
-            String[] bloques = normalizar.split(" ");
-        if(bloques.length>7){
-            Timestamp fecha = convertirftp(bloques[0] + " " + bloques[1] + " " + bloques[3] + " " + bloques[4] + " " + bloques[5]); // Fecha completa
-            String pid = bloques[7];
-            String comandoftp = bloques[8];
-
-            // Procesar dependiendo del comando FTP
-            if (comandoftp.equals("CONNECT:")) {
-                procesarConectar(fecha, pid, comandoftp, bloques);
-            } else if (comandoftp.equals("FTP")) {
-                // El comando FTP puede tener parámetros adicionales como FTP <comando>
-                procesarFtp(fecha, pid, comandoftp, bloques);
-            } else if (comandoftp.equals("OK UPLOAD:")|| comandoftp.equals("FAIL UPLOAD:")) {
-                procesarUpload(fecha, pid, comandoftp, bloques);
-            } else  if (comandoftp.equals("OK LOGIN:") || comandoftp.equals("FAIL LOGIN:")) {
-                procesarLogin(fecha, pid, comandoftp, bloques);
-            } else if (comandoftp.equals("OK DOWNLOAD:")|| comandoftp.equals("FAIL DOWNLOAD:")) {
-                procesardownload(fecha, pid, comandoftp, bloques);
-            } else {
-                procesarMensajeGenerico(fecha, pid, comandoftp, bloques);
+        while ((linea = lector.readLine()) != null) {
+            String normalizar = normalizarlinea(linea);   
+            String[] bloques = normalizar.split("\\s+"); 
+            if(bloques.length>7){
+                    Timestamp fecha = convertirerror(bloques[0] + " " + bloques[1] + " " + bloques[2] + " " + bloques[3] + " " + bloques[4]); // Fecha completa
+                
+                    String especial=bloques[bloques.length-1];      
+                     String pid = bloques[6];
+                     String comandoftp  = bloques[7]; 
+                     // Procesar dependiendo del comando FTP
+                     if (especial.equals("i")||especial.equals("c")||especial.equals("f")||especial.equals("r")) {
+                        procesarespecial(fecha,bloques);
+                    }else if (comandoftp.equals("CONNECT:")) {
+                     procesarConectar(fecha, pid, comandoftp, bloques);
+                    } else if (comandoftp.equals("FTP")) {
+                        procesarFtp(fecha, pid, comandoftp, bloques);
+                    } else if (comandoftp.equals("OK UPLOAD:")|| comandoftp.equals("FAIL UPLOAD:")) {
+                    procesarUpload(fecha, pid, comandoftp, bloques);
+                    } else  if (comandoftp.equals("OK LOGIN:") || comandoftp.equals("FAIL LOGIN:")) {
+                    procesarLogin(fecha, pid, comandoftp, bloques);
+                    } else if (comandoftp.equals("OK DOWNLOAD:")|| comandoftp.equals("FAIL DOWNLOAD:")) {
+                    procesardownload(fecha, pid, comandoftp, bloques);
+                    } else {
+                    procesarMensajeGenerico(fecha, pid, comandoftp, bloques);
+                    }
+                 
+                
             }
-            
         }
-    }
     } catch (IOException e) {
         JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + e.getMessage());
     }
-    return lista3;
+    return lista3; 
+}
+private void procesarespecial(Timestamp fecha,String []bloques) { 
+    String ip = bloques[6];
+    String comando=bloques[bloques.length-1];
+    String usuario=bloques[13];
+    String mensaje=armarmensaje(bloques,8);
+    if(comando.equals("i")){
+        lista3.add(new Parametros_vsftpd(fecha, "s/n", comando+" (Incompleto)", usuario, ip, mensaje));
+    }
+    if(comando.equals("c")){
+        lista3.add(new Parametros_vsftpd(fecha, "s/n", comando+" (Completo)", usuario, ip, mensaje));
+    }
+    if(comando.equals("f")){
+        lista3.add(new Parametros_vsftpd(fecha, "s/n", comando+" (Fallo)", usuario, ip, mensaje));
+    }
+    if(comando.equals("r")){
+        lista3.add(new Parametros_vsftpd(fecha, "s/n", comando+" (Reanudado)", usuario, ip, mensaje));
+    }
 }
 
 private void procesarConectar(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
-    String ip = bloques[10];
+    String ip = bloques[9];
     lista3.add(new Parametros_vsftpd(fecha, pid, comandoftp, "local host", ip, "Alguien trata de entrar al servidor"));
 }
 
 private void procesarFtp(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
-    comandoftp=comandoftp+" "+bloques[9];
-    String ip=bloques[11];
-    String mensaje=armarmensaje(bloques,12);
+    comandoftp=comandoftp+" "+bloques[8];
+    String ip=bloques[10];
+    String mensaje=armarmensaje(bloques,11);
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,"local host",ip,mensaje));
 }
 
 private void procesarUpload(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
    String res="";
     String usuario=comandoftp;
-    comandoftp=bloques[9]+" "+bloques[10];
-    String ip=bloques[12];
-    String mensaje=armarmensaje(bloques,13);
+    comandoftp=bloques[8]+" "+bloques[9];
+    String ip=bloques[11];
+    String mensaje=armarmensaje(bloques,12);
     if(comandoftp.equals("OK UPLOAD:")){
         res="Se subio con exito el archivo: ";
     }else{
@@ -318,35 +339,35 @@ private void procesarUpload(Timestamp fecha, String pid, String comandoftp, Stri
 private void procesarLogin(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
     String res="";
     String usuario=comandoftp;
-    comandoftp=bloques[9]+" "+bloques[10];
+    comandoftp=bloques[8]+" "+bloques[9];
     if(comandoftp.equals("OK LOGIN:")){
         res="Acceso permitido a ";
     }else{
         res="Acceso denegado a ";
     }
-    String ip=bloques[12];
+    String ip=bloques[11];
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+usuario));
 }
 
 private void procesardownload(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
      String res="";
     String usuario=comandoftp;
-    comandoftp=bloques[9]+" "+bloques[10];
+    comandoftp=bloques[8]+" "+bloques[9];
     if(comandoftp.equals("OK DOWNLOAD:")){
         res="Descarga exitosa, archivo: ";
     }else{
         res="No se puedo descargar el archivo: ";
     }
-    String ip=bloques[12];
-    String mensaje=armarmensaje(bloques,13);
+    String ip=bloques[11];
+    String mensaje=armarmensaje(bloques,12);
     lista3.add(new Parametros_vsftpd(fecha,pid,comandoftp,usuario,ip,res+mensaje));
 }
 
 private void procesarMensajeGenerico(Timestamp fecha, String pid, String comandoftp, String[] bloques) {
     String usuario=comandoftp;
-    comandoftp=bloques[9]+" "+bloques[10];
-    String mensaje = armarmensaje(bloques, 13);
-    String ip = bloques[12];
+    comandoftp=bloques[8]+" "+bloques[9];
+    String mensaje = armarmensaje(bloques, 12);
+    String ip = bloques[11];
     lista3.add(new Parametros_vsftpd(fecha, pid, comandoftp, usuario, ip, mensaje));
 }
 private String normalizarlinea(String cadena){

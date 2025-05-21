@@ -6,6 +6,7 @@
 	<property name="ireport.y" value="1581"/>
 	<property name="ireport.callouts" value="##Wed May 14 17:18:37 BOT 2025"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="aso"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -153,9 +154,14 @@ FROM ftp;]]>
 	<queryString>
 		<![CDATA[SELECT
   COUNT(*) AS total_conexiones,
-  SUM(CASE WHEN UPPER(Comando) = 'STOR' THEN 1 ELSE 0 END) AS total_subidos,
-  SUM(CASE WHEN UPPER(Comando) = 'RETR' THEN 1 ELSE 0 END) AS total_descargados,
-  SUM(CASE WHEN LOWER(Mensaje) LIKE '%error%' OR LOWER(Mensaje) LIKE '%fail%' THEN 1 ELSE 0 END) AS total_errores
+  SUM(CASE WHEN UPPER(comando) LIKE '%OK UPLOAD%' THEN 1 ELSE 0 END) AS total_subidos,
+  SUM(CASE WHEN UPPER(comando) LIKE '%OK DOWNLOAD%' THEN 1 ELSE 0 END) AS total_descargados,
+  SUM(CASE
+        WHEN LOWER(COALESCE(mensaje, '')) LIKE '%error%'
+          OR LOWER(COALESCE(mensaje, '')) LIKE '%fail%'
+        THEN 1
+        ELSE 0
+      END) AS total_errores
 FROM ftp;]]>
 	</queryString>
 	<field name="total_conexiones" class="java.lang.Long"/>
