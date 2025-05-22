@@ -102,8 +102,21 @@ public class modelo {
             
             while((linea=lector.readLine())!=null){ 
                 String normalizar = normalizarlinea(linea);
-                String[] bloques = normalizar.split(" "); 
-                if(bloques.length>=18){
+                String[] bloques = normalizar.split(" ");
+                if(bloques.length>18){
+                     String IP = bloques[0];
+                    String cuenta = bloques[2]; 
+                    Timestamp fechaHora =convertiracces(bloques[3]); 
+                    String metodo = bloques[5];
+                    String Ruta = bloques[6];
+                    String protocolo = bloques[7];
+                    String estado =bloques[8];  
+                    String respuesta = bloques[9];  
+                    String referer = bloques[10];
+                    String SO = bloques[14];
+                    String navegador = bloques[bloques.length-1];
+                    lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
+                }else if(bloques.length==18){
                     String IP = bloques[0];
                     String cuenta = bloques[2]; 
                     Timestamp fechaHora =convertiracces(bloques[3]); 
