@@ -229,7 +229,8 @@ public class controlador implements ActionListener {
         if(e.getSource()==view2.btnactualizar){
             
                 if(model.getRuta().contains("access_log")){
-                    List<Parametrosapache_acceslog>lista1=model.leerlogacces_log(); 
+                    List<Parametrosapache_acceslog>lista1=new ArrayList<>();
+                            lista1=model.leerlogacces_log(); 
                     JOptionPane.showMessageDialog(null,"Actualizando base de datos");
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
@@ -237,7 +238,8 @@ public class controlador implements ActionListener {
                     JOptionPane.showMessageDialog(null,"Actualizacion exitosa apretar el boton listar");
                 }
                 if(model.getRuta().contains("error_log")){
-                    List<Parametros_errorlog>lista1=model.leerlogerror_log(); 
+                    List<Parametros_errorlog>lista1=new ArrayList<>();
+                            lista1=model.leerlogerror_log(); 
                     JOptionPane.showMessageDialog(null,"Actualizando base de datos");
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
@@ -245,7 +247,8 @@ public class controlador implements ActionListener {
                     JOptionPane.showMessageDialog(null,"Actualizacion exitosa apretar el boton listar");
                 }
                 if(model.getRuta().contains("vsftpd")){ 
-                List<Parametros_vsftpd>lista1=model.leerLogVsftpd(); 
+                List<Parametros_vsftpd>lista1=new ArrayList<>();
+                    lista1=model.leerLogVsftpd(); 
                 JOptionPane.showMessageDialog(null,"Actualizando base de datos");
                     DefaultTableModel modelo=(DefaultTableModel)view2.Tabla1.getModel();
                     modelo.setRowCount(0);
@@ -995,18 +998,23 @@ public class controlador implements ActionListener {
         
    private void meterdatosBDftp(List<Parametros_vsftpd>lista1){
        try {
-            PreparedStatement pst1=(PreparedStatement) con.prepareStatement("DELETE FROM ftp");
-             pst1.executeUpdate();
-             for(int i=0;i<lista1.size();i++){
-             PreparedStatement pst=(PreparedStatement) con.prepareStatement("INSERT IGNORE INTO ftp VALUES(?,?,?,?,?,?)");
-             pst.setTimestamp(1,lista1.get(i).getFecha());
-             pst.setString(2,lista1.get(i).getPid());
-             pst.setString(3,lista1.get(i).getComando());
-             pst.setString(4,lista1.get(i).getUsuario());
-             pst.setString(5,lista1.get(i).getIp());
-             pst.setString(6,lista1.get(i).getMessage());                 
-             pst.executeUpdate();
-             }
+                // Eliminar antes de insertar
+        PreparedStatement delete = (PreparedStatement) con.prepareStatement("DELETE FROM ftp");
+        delete.executeUpdate();
+
+        // Usar batch insert
+        PreparedStatement insert = (PreparedStatement) con.prepareStatement("INSERT IGNORE INTO ftp VALUES(?,?,?,?,?,?)");
+        for (Parametros_vsftpd p : lista1) {
+            insert.setTimestamp(1, p.getFecha());
+            insert.setString(2, p.getPid());
+            insert.setString(3, p.getComando());
+            insert.setString(4, p.getUsuario());
+            insert.setString(5, p.getIp());
+            insert.setString(6, p.getMessage());
+            insert.addBatch();
+        }
+        insert.executeBatch();
+
 
        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Error "+ex.getMessage());
