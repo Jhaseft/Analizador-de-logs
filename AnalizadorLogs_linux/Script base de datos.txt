@@ -1,0 +1,93 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 13-05-2025 a las 01:01:12
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Base de datos: aso
+--
+CREATE DATABASE IF NOT EXISTS aso DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE aso;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla acces_log
+--
+
+DROP TABLE IF EXISTS acces_log;
+CREATE TABLE acces_log (
+  IP varchar(300) NOT NULL,
+  Cuenta varchar(300) NOT NULL,
+  Fecha timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  Metodo varchar(300) NOT NULL,
+  Ruta varchar(300) NOT NULL,
+  Protocolo varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  Estado varchar(300) NOT NULL,
+  Respuesta varchar(300) NOT NULL,
+  Referer varchar(300) NOT NULL,
+  Sistema Operativo varchar(300) NOT NULL,
+  Navegador varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla error_log
+--
+
+DROP TABLE IF EXISTS error_log;
+CREATE TABLE error_log (
+  Fecha timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  Codigo varchar(256) NOT NULL,
+  Pid varchar(256) NOT NULL,
+  Comando varchar(256) NOT NULL,
+  Mensaje varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla ftp
+--
+
+DROP TABLE IF EXISTS ftp;
+CREATE TABLE ftp (
+  Fecha timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  Pid varchar(256) NOT NULL,
+  Comando varchar(256) NOT NULL,
+  Usuario varchar(256) NOT NULL,
+  Ip varchar(256) NOT NULL,
+  Mensaje varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla acces_log
+--
+ALTER TABLE acces_log
+  ADD PRIMARY KEY (IP,Fecha,Ruta,Respuesta);
+
+--
+-- Indices de la tabla error_log
+--
+ALTER TABLE error_log
+  ADD PRIMARY KEY (Fecha,Codigo,Comando,Mensaje);
+
+--
+-- Indices de la tabla ftp
+--
+ALTER TABLE ftp
+  ADD PRIMARY KEY (Fecha,Usuario,Ip,Mensaje);
+COMMIT;

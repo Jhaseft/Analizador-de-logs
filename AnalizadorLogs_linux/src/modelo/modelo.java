@@ -113,7 +113,7 @@ public class modelo {
                     String estado =bloques[8];  
                     String respuesta = bloques[9];  
                     String referer = bloques[10];
-                    String SO = bloques[14];
+                    String SO = buscarso(bloques);
                     String navegador = bloques[bloques.length-1];
                     lista1.add(new Parametrosapache_acceslog(IP,cuenta,fechaHora,metodo,Ruta,protocolo,estado,respuesta,referer,SO,navegador));
                 }else if(bloques.length==18){
@@ -185,7 +185,15 @@ public class modelo {
         }
         return lista1;
     }
-    
+    private String  buscarso(String bloques[]){
+        String res="";
+        for(int i=0;i<bloques.length;i++){
+            if(bloques[i].contains("Windows")||bloques[i].contains("Linux")){
+            res=bloques[i];
+            }
+        }
+        return res;
+    }
    
     
     
